@@ -15,11 +15,11 @@ model categories {
 }
 
 model products {
-  id          Int     @id @default(autoincrement())
-  name        String  @db.VarChar(255)
-  image_url   String? @db.VarChar(255)
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(255)
+  image_url   String?  @db.VarChar(255)
   category_id Int?
-  createdAt DateTime @default(now())
+  createdAt   DateTime @default(now())
 
   @@index([category_id], map: "category_id_idx")
 }

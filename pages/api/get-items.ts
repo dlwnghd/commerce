@@ -26,7 +26,7 @@ async function getItems() {
 }
 
 type Data = {
-  items?: any
+  items?: object
   message: string
 }
 

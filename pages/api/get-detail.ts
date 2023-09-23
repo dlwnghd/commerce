@@ -19,7 +19,7 @@ async function getDetail(pageId: string, propertyId: string) {
 }
 
 type Data = {
-  detail?: any
+  detail?: object
   message: string
 }
 
