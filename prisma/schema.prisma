@@ -19,7 +19,8 @@ model products {
   name        String   @db.VarChar(255)
   image_url   String?  @db.VarChar(255)
   category_id Int?
-  createdAt   DateTime @default(now())
+  createdAt   DateTime @default(dbgenerated("(now())")) @db.DateTime(0)
+  contents    String?  @db.Text
 
   @@index([category_id], map: "category_id_idx")
 }
