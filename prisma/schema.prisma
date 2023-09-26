@@ -21,6 +21,30 @@ model products {
   category_id Int?
   createdAt   DateTime @default(dbgenerated("(now())")) @db.DateTime(0)
   contents    String?  @db.Text
+  price       Int      @default(20000)
 
   @@index([category_id], map: "category_id_idx")
+}
+
+model bd6_9898_53ca_b2d7_225a2e969745_20230926015557_vrepl {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(255)
+  image_url   String?  @db.VarChar(255)
+  category_id Int?
+  createdAt   DateTime @default(dbgenerated("(now())")) @db.DateTime(0)
+  contents    String?  @db.Text
+
+  @@index([category_id], map: "category_id_idx")
+  @@map("_12527bd6_9898_53ca_b2d7_225a2e969745_20230926015557_vrepl")
+}
+
+model fd59175b_e382_59a0_83ca_bd38fbdafe3b_20230925022103_vrepl {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(255)
+  image_url   String?  @db.VarChar(255)
+  category_id Int?
+  createdAt   DateTime @default(dbgenerated("(now())")) @db.DateTime(0)
+
+  @@index([category_id], map: "category_id_idx")
+  @@map("_fd59175b_e382_59a0_83ca_bd38fbdafe3b_20230925022103_vrepl")
 }
