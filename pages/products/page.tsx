@@ -1,15 +1,18 @@
-import { Pagination, SegmentedControl } from '@mantine/core'
+import { Pagination, SegmentedControl, Select } from '@mantine/core'
 import { categories, products } from '@prisma/client'
+import { CATEGORY_MAP, FILTERS, TAKE } from 'constants/products'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
-const TAKE = 9
 export default function Products() {
   const [activePage, setPage] = useState(1)
   const [total, setTotal] = useState(0)
   const [categories, setCategories] = useState<categories[]>([])
   const [selectedCategory, setSelectedCategory] = useState<string>('-1')
   const [products, setProducts] = useState<products[]>([])
+  const [selectedFilter, setSelectedFilter] = useState<string | null>(
+    FILTERS[0].value,
+  )
 
   useEffect(() => {
     fetch('/api/get-categories')
@@ -34,6 +37,11 @@ export default function Products() {
 
   return (
     <div className="px-36 mt-36 mb=36">
+      <Select
+        value={selectedFilter}
+        onChange={setSelectedFilter}
+        data={FILTERS}
+      />
       {categories && (
         <div className="mb-4">
           <SegmentedControl
@@ -70,7 +78,7 @@ export default function Products() {
                 </span>
               </div>
               <span className="text-zinc-400">
-                {item.category_id === 1 && '의류'}
+                {CATEGORY_MAP[item.category_id - 1]}
               </span>
             </div>
           ))}
