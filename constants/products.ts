@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 export const CATEGORY_MAP = ['Sneakers', 'T-Shirt', 'Pants', 'Cap', 'Hoodie']
 
 export const TAKE = 9
@@ -16,3 +17,13 @@ export const FILTERS = [
     value: 'cheap',
   },
 ]
+
+export const getOrderBy = (orderBy?: string) => {
+  return orderBy
+    ? orderBy === 'latest'
+      ? { orderBy: { createdAt: 'desc' } }
+      : orderBy === 'expensive'
+      ? { orderBy: { price: 'desc' } }
+      : { orderBy: { price: 'asc' } }
+    : undefined
+}

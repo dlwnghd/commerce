@@ -29,19 +29,21 @@ export default function Products() {
   useEffect(() => {
     const skip = TAKE * (activePage - 1)
     fetch(
-      `/api/get-products?skip=${skip}&take=${TAKE}&category=${selectedCategory}`,
+      `/api/get-products?skip=${skip}&take=${TAKE}&category=${selectedCategory}&orderBy=${selectedFilter}`,
     )
       .then((res) => res.json())
       .then((data) => setProducts(data.items))
-  }, [activePage, selectedCategory])
+  }, [activePage, selectedCategory, selectedFilter])
 
   return (
     <div className="px-36 mt-36 mb=36">
-      <Select
-        value={selectedFilter}
-        onChange={setSelectedFilter}
-        data={FILTERS}
-      />
+      <div className="mb-4">
+        <Select
+          value={selectedFilter}
+          onChange={setSelectedFilter}
+          data={FILTERS}
+        />
+      </div>
       {categories && (
         <div className="mb-4">
           <SegmentedControl
@@ -61,7 +63,7 @@ export default function Products() {
       {products && (
         <div className="grid grid-cols-3 gap-5">
           {products.map((item) => (
-            <div key={item.id}>
+            <div key={item.id} style={{ maxWidth: 310 }}>
               <Image
                 className="rounded"
                 alt={item.name}
