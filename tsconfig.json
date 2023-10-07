@@ -15,9 +15,11 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@styles/*": ["styles/*"],
-      "@components/*": ["components/*"],
-      "@pages/*": ["pages/*"]
+      "@@components/*": ["components/*"],
+      "@@constants/*": ["constants/*"],
+      "@@hooks/*": ["hooks/*"],
+      "@@pages/*": ["pages/*"],
+      "@@styles/*": ["styles/*"]
     },
     "types": ["@emotion/react/types/css-prop", "node"]
   },

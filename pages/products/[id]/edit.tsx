@@ -1,9 +1,10 @@
-import CustomEditor from '@components/Editor'
 import { convertFromRaw, convertToRaw, EditorState } from 'draft-js'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import Carousel from 'nuka-carousel'
 import { useEffect, useState } from 'react'
+
+import CustomEditor from '@@components/Editor'
 
 const images = [
   {

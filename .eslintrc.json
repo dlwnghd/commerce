@@ -30,7 +30,6 @@
         "functions": "always-multiline"
       }
     ],
-    "indent": ["error", 2],
     "quotes": ["error", "single"],
     "eol-last": "error",
     "simple-import-sort/imports": "error",
