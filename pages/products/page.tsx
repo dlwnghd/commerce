@@ -3,17 +3,14 @@ import { categories, products } from '@prisma/client'
 import { IconSearch } from '@tabler/icons-react'
 import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import { CATEGORY_MAP, FILTERS, TAKE } from '@@constants/products'
 import useDebounce from '@@hooks/useDebounce'
 
 export default function Products() {
   const [activePage, setPage] = useState(1)
-  const [total, setTotal] = useState(0)
-  const [categories, setCategories] = useState<categories[]>([])
   const [selectedCategory, setSelectedCategory] = useState<string>('-1')
-  // const [products, setProducts] = useState<products[]>([])
   const [selectedFilter, setSelectedFilter] = useState<string | null>(
     FILTERS[0].value,
   )
@@ -21,19 +18,27 @@ export default function Products() {
 
   const debouncedKeyword = useDebounce<string>(keyword)
 
-  useEffect(() => {
-    fetch('/api/get-categories')
-      .then((res) => res.json())
-      .then((data) => setCategories(data.items))
-  }, [])
+  const { data: categories } = useQuery<
+    { items: categories[] },
+    unknown,
+    categories[]
+  >(
+    ['/api/get-categories'],
+    () => fetch('/api/get-categories').then((res) => res.json()),
+    { select: (data) => data.items },
+  )
 
-  useEffect(() => {
-    fetch(
+  const { data: total } = useQuery(
+    [
       `/api/get-products-count?category=${selectedCategory}&contains=${debouncedKeyword}`,
-    )
-      .then((res) => res.json())
-      .then((data) => setTotal(Math.ceil(data.items / TAKE)))
-  }, [selectedCategory, debouncedKeyword])
+    ],
+    () =>
+      fetch(
+        `/api/get-products-count?category=${selectedCategory}&contains=${debouncedKeyword}`,
+      )
+        .then((res) => res.json())
+        .then((data) => Math.ceil(data.items / TAKE)),
+  )
 
   // useEffect(() => {
   //   const skip = TAKE * (activePage - 1)
@@ -65,8 +70,15 @@ export default function Products() {
     },
   )
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // 핸들러
+  const handleSearchTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value)
+  }
+
+  // 전체 카테고리 페이지 개수 != 특정 카테고리 페이지 개수
+  const handleCategoryChange = (e: string) => {
+    setPage(1)
+    setSelectedCategory(e)
   }
 
   return (
@@ -76,7 +88,7 @@ export default function Products() {
           icon={<IconSearch />}
           placeholder="Search"
           value={keyword}
-          onChange={handleChange}
+          onChange={handleSearchTextChange}
         />
       </div>
       <div className="mb-4">
@@ -90,7 +102,7 @@ export default function Products() {
         <div className="mb-4">
           <SegmentedControl
             value={selectedCategory}
-            onChange={setSelectedCategory}
+            onChange={handleCategoryChange}
             data={[
               { label: 'ALL', value: '-1' },
               ...categories.map((category) => ({
@@ -130,14 +142,16 @@ export default function Products() {
           ))}
         </div>
       )}
-      <div className="w-full flex mt-5">
-        <Pagination
-          className="m-auto"
-          page={activePage}
-          onChange={setPage}
-          total={total}
-        />
-      </div>
+      {total && (
+        <div className="w-full flex mt-5">
+          <Pagination
+            className="m-auto"
+            page={activePage}
+            onChange={setPage}
+            total={total}
+          />
+        </div>
+      )}
     </div>
   )
 }
