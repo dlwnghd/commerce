@@ -1,3 +1,11 @@
+/**
+ * FILENAME   : sign-in.ts
+ * PURPOSE    : 구글 OAuth 로그인 API
+ * AUTHOR     : Lee Juhong
+ * CREATEDATE : 2023-10-10
+ * UPDATEDATE : -
+ */
+
 /* eslint-disable indent */
 import { PrismaClient } from '@prisma/client'
 import jwtDecode from 'jwt-decode'

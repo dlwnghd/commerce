@@ -1,3 +1,11 @@
+/**
+ * FILENAME   : get-items.ts
+ * PURPOSE    : 전체 아이템 조회 API
+ * AUTHOR     : Lee Juhong
+ * CREATEDATE : 2023-10-10
+ * UPDATEDATE : -
+ */
+
 import { Client } from '@notionhq/client'
 import type { NextApiRequest, NextApiResponse } from 'next'
 

@@ -1,3 +1,11 @@
+/**
+ * FILENAME   : index.tsx
+ * PURPOSE    : 상품 리스트 컴포넌트
+ * AUTHOR     : Lee Juhong
+ * CREATEDATE : 2023-10-10
+ * UPDATEDATE : -
+ */
+
 import { products } from '@prisma/client'
 import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'

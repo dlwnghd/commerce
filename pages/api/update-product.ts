@@ -1,3 +1,11 @@
+/**
+ * FILENAME   : update-product.ts
+ * PURPOSE    : 단일 상품 수정 API
+ * AUTHOR     : Lee Juhong
+ * CREATEDATE : 2023-10-10
+ * UPDATEDATE : -
+ */
+
 import { PrismaClient, products } from '@prisma/client'
 import type { NextApiRequest, NextApiResponse } from 'next'
 

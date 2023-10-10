@@ -1,3 +1,11 @@
+/**
+ * FILENAME   : index.tsx
+ * PURPOSE    : 게시판 기본 컴포넌트
+ * AUTHOR     : Lee Juhong
+ * CREATEDATE : 2023-10-10
+ * UPDATEDATE : -
+ */
+
 import { convertFromRaw, EditorState } from 'draft-js'
 import Image from 'next/image'
 import { useRouter } from 'next/router'

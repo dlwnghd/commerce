@@ -1,3 +1,11 @@
+/**
+ * FILENAME   : product-with-category.ts
+ * PURPOSE    : 테스트 데이터 / 카테고리가 있는 상품 데이터
+ * AUTHOR     : Lee Juhong
+ * CREATEDATE : 2023-10-10
+ * UPDATEDATE : -
+ */
+
 import { Prisma, PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()

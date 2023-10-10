@@ -1,3 +1,11 @@
+/**
+ * FILENAME   : Editor.tsx
+ * PURPOSE    : 게시판 편집 컴포넌트
+ * AUTHOR     : Lee Juhong
+ * CREATEDATE : 2023-10-10
+ * UPDATEDATE : -
+ */
+
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
 import styled from '@emotion/styled'

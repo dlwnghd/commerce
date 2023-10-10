@@ -1,3 +1,11 @@
+/**
+ * FILENAME   : get-products-count.ts
+ * PURPOSE    : 전체 상품 갯수 조회 API
+ * AUTHOR     : Lee Juhong
+ * CREATEDATE : 2023-10-10
+ * UPDATEDATE : -
+ */
+
 /* eslint-disable indent */
 import { PrismaClient } from '@prisma/client'
 import type { NextApiRequest, NextApiResponse } from 'next'

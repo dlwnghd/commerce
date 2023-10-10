@@ -1,3 +1,11 @@
+/**
+ * FILENAME   : _app.tsx
+ * PURPOSE    : 페이지 & 레이아웃 관리
+ * AUTHOR     : Lee Juhong
+ * CREATEDATE : 2023-10-10
+ * UPDATEDATE : -
+ */
+
 import '@@styles/globals.css'
 
 import { GoogleOAuthProvider } from '@react-oauth/google'

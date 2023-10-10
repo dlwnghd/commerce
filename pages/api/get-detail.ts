@@ -1,3 +1,11 @@
+/**
+ * FILENAME   : get-detail.ts
+ * PURPOSE    : 아이템 상세 조회 API
+ * AUTHOR     : Lee Juhong
+ * CREATEDATE : 2023-10-10
+ * UPDATEDATE : -
+ */
+
 import { Client } from '@notionhq/client'
 import type { NextApiRequest, NextApiResponse } from 'next'
 

@@ -1,3 +1,11 @@
+/**
+ * FILENAME   : products.ts
+ * PURPOSE    : 상품 정보
+ * AUTHOR     : Lee Juhong
+ * CREATEDATE : 2023-10-10
+ * UPDATEDATE : -
+ */
+
 /* eslint-disable indent */
 export const CATEGORY_MAP = ['Sneakers', 'T-Shirt', 'Pants', 'Cap', 'Hoodie']
 

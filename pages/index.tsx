@@ -1,3 +1,11 @@
+/**
+ * FILENAME   : index.tsx
+ * PURPOSE    : 기본 페이지
+ * AUTHOR     : Lee Juhong
+ * CREATEDATE : 2023-10-10
+ * UPDATEDATE : -
+ */
+
 import { css } from '@emotion/react'
 import { Inter } from 'next/font/google'
 import { useEffect, useRef, useState } from 'react'

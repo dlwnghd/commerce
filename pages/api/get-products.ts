@@ -1,3 +1,11 @@
+/**
+ * FILENAME   : get-products.ts
+ * PURPOSE    : 전체 상품 조회 API
+ * AUTHOR     : Lee Juhong
+ * CREATEDATE : 2023-10-10
+ * UPDATEDATE : -
+ */
+
 import { PrismaClient } from '@prisma/client'
 import type { NextApiRequest, NextApiResponse } from 'next'
 

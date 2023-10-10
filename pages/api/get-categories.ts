@@ -1,3 +1,11 @@
+/**
+ * FILENAME   : get-categories.ts
+ * PURPOSE    : 카테고리 조회 API
+ * AUTHOR     : Lee Juhong
+ * CREATEDATE : 2023-10-10
+ * UPDATEDATE : -
+ */
+
 import { PrismaClient } from '@prisma/client'
 import type { NextApiRequest, NextApiResponse } from 'next'
 

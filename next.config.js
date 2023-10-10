@@ -1,3 +1,11 @@
+/**
+ * FILENAME   : next.config.js
+ * PURPOSE    : Next 설정 파일
+ * AUTHOR     : Lee Juhong
+ * CREATEDATE : 2023-10-10
+ * UPDATEDATE : -
+ */
+
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
   openAnalyzer: false,

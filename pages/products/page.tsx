@@ -1,3 +1,11 @@
+/**
+ * FILENAME   : page.tsx
+ * PURPOSE    : 상품 리스트 페이지네이션 컴포넌트
+ * AUTHOR     : Lee Juhong
+ * CREATEDATE : 2023-10-10
+ * UPDATEDATE : -
+ */
+
 import { Input, Pagination, SegmentedControl, Select } from '@mantine/core'
 import { categories, products } from '@prisma/client'
 import { IconSearch } from '@tabler/icons-react'

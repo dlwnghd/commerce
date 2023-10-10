@@ -1,3 +1,9 @@
+// FILENAME   : schema.prisma
+// PURPOSE    : DB / 프리즈마 스키마 데이터
+// AUTHOR     : Lee Juhong
+// CREATEDATE : 2023-10-10
+// UPDATEDATE : -
+
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["referentialIntegrity"]
