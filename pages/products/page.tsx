@@ -3,7 +3,7 @@
  * PURPOSE    : 상품 리스트 페이지네이션 컴포넌트
  * AUTHOR     : Lee Juhong
  * CREATEDATE : 2023-10-10
- * UPDATEDATE : -
+ * UPDATEDATE : 2023-10-11 / Session Test / Lee Juhong
  */
 
 import { Input, Pagination, SegmentedControl, Select } from '@mantine/core'
@@ -11,12 +11,14 @@ import { categories, products } from '@prisma/client'
 import { IconSearch } from '@tabler/icons-react'
 import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
+import { useSession } from 'next-auth/react'
 import React, { useState } from 'react'
 
 import { CATEGORY_MAP, FILTERS, TAKE } from '@@constants/products'
 import useDebounce from '@@hooks/useDebounce'
 
 export default function Products() {
+  const { data: session } = useSession()
   const [activePage, setPage] = useState(1)
   const [selectedCategory, setSelectedCategory] = useState<string>('-1')
   const [selectedFilter, setSelectedFilter] = useState<string | null>(
@@ -91,6 +93,7 @@ export default function Products() {
 
   return (
     <div className="px-36 mt-36 mb=36">
+      {session && <p>안녕하세요. {session.user?.name}님</p>}
       <div className="mb-4">
         <Input
           icon={<IconSearch />}

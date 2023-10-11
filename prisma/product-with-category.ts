@@ -3,7 +3,7 @@
  * PURPOSE    : 테스트 데이터 / 카테고리가 있는 상품 데이터
  * AUTHOR     : Lee Juhong
  * CREATEDATE : 2023-10-10
- * UPDATEDATE : -
+ * UPDATEDATE : 2023-10-11 / 이미지 변경 및 PlanetScale 이미지 Upsert / Lee Juhong
  */
 
 import { Prisma, PrismaClient } from '@prisma/client'
@@ -456,7 +456,7 @@ const hoodie = [
       '{"blocks":[{"key":"5fi56","text":"본 제품은 오가닉 소재입니다. 어느 스타일에도 잘 어울리는 힙한 감성을 품고 있습니다.","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
     category_id: 5,
     image_url:
-      'https://cdn.shopify.com/s/files/1/0282/5850/products/apparel_tops_newbalance_made-in-usa-core-hoodie_MT21540.color_athletic-grey.view_1_720x.jpg',
+      'https://cdn.shopify.com/s/files/1/0282/5850/products/apparel_tops_undefeated_la_kings-chrome-hoodie_70025.color_white.view_1_720x.jpg',
     price: getRandom(300000, 100000),
   },
   {
@@ -488,6 +488,22 @@ const productData: Prisma.productsCreateInput[] = [
 ]
 
 async function main() {
+  const CATEGORIES = ['Sneakers', 'T-Shirt', 'Pants', 'Cap', 'Hoodie']
+  CATEGORIES.forEach(async (c, i) => {
+    const product = await prisma.categories.upsert({
+      where: {
+        id: i + 1,
+      },
+      update: {
+        name: c,
+      },
+      create: {
+        name: c,
+      },
+    })
+    console.log(`Upsert category id: ${product.id}`)
+  })
+
   await prisma.products.deleteMany({})
 
   for (const p of productData) {
