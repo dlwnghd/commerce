@@ -3,6 +3,7 @@
 // AUTHOR     : Lee Juhong
 // CREATEDATE : 2023-10-10
 // UPDATEDATE : 2023-10-11 / Auth.js에 맞춘 schema 추가 / Lee Juhong
+// UPDATEDATE : 2023-10-12 / 찜 하기 WishList 추가 / Lee Juhong
 
 generator client {
   provider        = "prisma-client-js"
@@ -82,4 +83,10 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model WishList {
+  id         Int    @id @default(autoincrement())
+  userId     String @unique
+  productIds String
 }

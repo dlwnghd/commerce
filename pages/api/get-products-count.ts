@@ -3,7 +3,7 @@
  * PURPOSE    : 전체 상품 갯수 조회 API
  * AUTHOR     : Lee Juhong
  * CREATEDATE : 2023-10-10
- * UPDATEDATE : -
+ * UPDATEDATE : 2023-10-12 / API 결과 메세지 수정 / Lee Juhong
  */
 
 /* eslint-disable indent */
@@ -51,8 +51,10 @@ export default async function handler(
   const { category, contains } = req.query
   try {
     const products = await getProductsCount(Number(category), String(contains))
-    res.status(200).json({ items: products, message: 'Success get Items' })
+    res
+      .status(200)
+      .json({ items: products, message: 'Success get Products Counts' })
   } catch (error) {
-    res.status(400).json({ message: 'Failed get Items' })
+    res.status(400).json({ message: 'Failed get Products Counts' })
   }
 }

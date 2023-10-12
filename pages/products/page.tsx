@@ -4,6 +4,7 @@
  * AUTHOR     : Lee Juhong
  * CREATEDATE : 2023-10-10
  * UPDATEDATE : 2023-10-11 / Session Test / Lee Juhong
+ * UPDATEDATE : 2023-10-12 / 상품 상세 페이지 이동 기능 추가 / Lee Juhong
  */
 
 import { Input, Pagination, SegmentedControl, Select } from '@mantine/core'
@@ -11,6 +12,7 @@ import { categories, products } from '@prisma/client'
 import { IconSearch } from '@tabler/icons-react'
 import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import React, { useState } from 'react'
 
@@ -18,6 +20,7 @@ import { CATEGORY_MAP, FILTERS, TAKE } from '@@constants/products'
 import useDebounce from '@@hooks/useDebounce'
 
 export default function Products() {
+  const router = useRouter()
   const { data: session } = useSession()
   const [activePage, setPage] = useState(1)
   const [selectedCategory, setSelectedCategory] = useState<string>('-1')
@@ -128,7 +131,11 @@ export default function Products() {
       {products && (
         <div className="grid grid-cols-3 gap-5">
           {products.map((item) => (
-            <div key={item.id} style={{ maxWidth: 310 }}>
+            <div
+              key={item.id}
+              style={{ maxWidth: 310 }}
+              onClick={() => router.push(`/products/${item.id}`)}
+            >
               <Image
                 className="rounded"
                 alt={item.name}

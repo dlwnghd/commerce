@@ -3,7 +3,7 @@
  * PURPOSE    : 단일 상품 수정 API
  * AUTHOR     : Lee Juhong
  * CREATEDATE : 2023-10-10
- * UPDATEDATE : -
+ * UPDATEDATE : 2023-10-12 / API 결과 메세지 수정 / Lee Juhong
  */
 
 import { PrismaClient, products } from '@prisma/client'
@@ -45,8 +45,8 @@ export default async function handler(
     const products = await updateProduct(Number(id), contents)
     res
       .status(200)
-      .json({ items: products ?? null, message: 'Success get Items' })
+      .json({ items: products ?? null, message: 'Success update Product' })
   } catch (error) {
-    res.status(400).json({ message: 'Failed get Items' })
+    res.status(400).json({ message: 'Failed update Product' })
   }
 }
