@@ -77,7 +77,7 @@ export default function Cart() {
 
   const handleOrder = () => {
     //TODO: 주문하기 기능 구현
-    alert(alert(`장바구니에 담긴 것들 ${JSON.stringify(data)} 주문`))
+    alert(`장바구니에 담긴 것들 ${JSON.stringify(data)} 주문`)
   }
 
   return (

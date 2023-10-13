@@ -6,7 +6,12 @@
  * UPDATEDATE : -
  */
 
-import { IconHome, IconShoppingCart, IconUser } from '@tabler/icons-react'
+import {
+  IconHeart,
+  IconHome,
+  IconShoppingCart,
+  IconUser,
+} from '@tabler/icons-react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
@@ -20,6 +25,12 @@ export default function Header() {
       <div className="w-full flex h-50 items-center">
         <IconHome onClick={() => router.push('/')} />
         <span className="m-auto" />
+        <IconHeart
+          className="mr-4"
+          onClick={() =>
+            session ? router.push('/wish') : router.push('/auth/login')
+          }
+        />
         <IconShoppingCart
           className="mr-4"
           onClick={() => router.push('/cart')}
