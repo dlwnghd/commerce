@@ -1,14 +1,15 @@
 /**
  * FILENAME   : index.tsx
- * PURPOSE    : 게시판 기본 컴포넌트
+ * PURPOSE    : 상품 상세 페이지 컴포넌트
  * AUTHOR     : Lee Juhong
  * CREATEDATE : 2023-10-10
  * UPDATEDATE : 2023-10-12 / 상세 페이지 찜하기 버튼 및 레이아웃 추가 / Lee Juhong
+ * UPDATEDATE : 2023-10-13 / 장바구니 버튼 UI 추가 / Lee Juhong
  */
 
 import { Button } from '@mantine/core'
 import { products } from '@prisma/client'
-import { IconHeart, IconHeartbeat } from '@tabler/icons-react'
+import { IconHeart, IconHeartbeat, IconShoppingCart } from '@tabler/icons-react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import { convertFromRaw, EditorState } from 'draft-js'
@@ -19,6 +20,7 @@ import { useSession } from 'next-auth/react'
 import Carousel from 'nuka-carousel'
 import { useState } from 'react'
 
+import { CountControl } from '@@components/CountControl'
 import CustomEditor from '@@components/Editor'
 import { CATEGORY_MAP } from '@@constants/products'
 
@@ -42,9 +44,10 @@ export default function Products(props: {
 }) {
   const [index, setIndex] = useState(0)
   const { data: session } = useSession()
-  const queryClient = useQueryClient()
+  const [quantity, setQuantity] = useState<number | undefined>(1)
 
   const router = useRouter()
+  const queryClient = useQueryClient()
   const { id: productId } = router.query
 
   const [editorState] = useState<EditorState | undefined>(() =>
@@ -95,6 +98,17 @@ export default function Products(props: {
       },
     },
   )
+  const validate = (type: 'cart' | 'order') => {
+    if (quantity == null) {
+      console.log(type)
+      alert('최소 수량을 선택하세요.')
+      return
+    }
+
+    // TODO: 장바구니에 등록하는 기능 추가
+
+    router.push('/cart')
+  }
 
   const product = props.product
 
@@ -106,7 +120,7 @@ export default function Products(props: {
   return (
     <>
       {product != null && productId != null ? (
-        <div className="p-24 flex flex-row">
+        <div className="flex flex-row">
           <div style={{ maxWidth: 600, marginRight: 52 }}>
             <Carousel
               animation="fade"
@@ -120,8 +134,8 @@ export default function Products(props: {
                   key={`${url}-carousel-${idx}`}
                   src={url}
                   alt="image"
-                  width={600}
-                  height={600}
+                  width={620}
+                  height={780}
                   priority={true}
                 />
               ))}
@@ -132,8 +146,8 @@ export default function Products(props: {
                   <Image
                     src={url}
                     alt="image"
-                    height={100}
-                    width={100}
+                    height={155}
+                    width={195}
                     priority={false}
                   />
                 </div>
@@ -148,7 +162,34 @@ export default function Products(props: {
               {CATEGORY_MAP[product.category_id ? product.category_id - 1 : 0]}
             </div>
             <div className="text-4xl font-semibold">{product.name}</div>
+            <div className="text-lg">
+              {product.price.toLocaleString('ko-kr')}원
+            </div>
             <div>
+              <span className="text-lg">수량</span>
+              <CountControl value={quantity} setValue={setQuantity} max={200} />
+            </div>
+            <div className="flex space-x-3">
+              <Button
+                leftIcon={<IconShoppingCart size={20} stroke={1.5} />}
+                style={{ backgroundColor: 'black' }}
+                radius="xl"
+                size="md"
+                styles={{
+                  root: { paddingRight: 14, height: 48 },
+                }}
+                onClick={() => {
+                  if (session == null) {
+                    alert('로그인이 필요해요')
+                    router.push('/auth/login')
+                    return
+                  }
+                  validate('cart')
+                  mutate(String(productId))
+                }}
+              >
+                장바구니
+              </Button>
               <Button
                 // loading={isLoading}
                 disabled={session == null}
@@ -177,7 +218,6 @@ export default function Products(props: {
                 찜하기
               </Button>
             </div>
-            <div>{product.price.toLocaleString('ko-kr')}원</div>
             <div className="text-sm text-zinc-300">
               등록 : {format(new Date(product.createdAt), 'yyyy년 M월 d일')}
             </div>

@@ -3,7 +3,7 @@
  * PURPOSE    : 게시판 편집 컴포넌트
  * AUTHOR     : Lee Juhong
  * CREATEDATE : 2023-10-10
- * UPDATEDATE : -
+ * UPDATEDATE : 2023-10-13 / 컴포넌트명 변경 / Lee Juhong
  */
 
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
@@ -14,7 +14,7 @@ import dynamic from 'next/dynamic'
 import { Dispatch, SetStateAction } from 'react'
 import { EditorProps } from 'react-draft-wysiwyg'
 
-import TestButton from './TestButton'
+import Button from './Button'
 
 const Editor = dynamic<EditorProps>(
   () => import('react-draft-wysiwyg').then((module) => module.Editor),
@@ -51,7 +51,7 @@ export default function CustomEditor({
         }}
         onEditorStateChange={onEditorStateChange}
       />
-      {!readOnly && <TestButton onClick={onSave}>Save</TestButton>}
+      {!readOnly && <Button onClick={onSave}>Save</Button>}
     </Wrapper>
   )
 }

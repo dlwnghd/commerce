@@ -3,7 +3,7 @@
  * PURPOSE    : 로그인 페이지
  * AUTHOR     : Lee Juhong
  * CREATEDATE : 2023-10-11
- * UPDATEDATE : -
+ * UPDATEDATE : 2023-10-13 / UI 수정 / Lee Juhong
  */
 
 import GoogleLogin from '@@components/GoogleLogin'
@@ -13,8 +13,7 @@ export default function Login() {
     <div
       style={{
         display: 'flex',
-        width: '100vw',
-        height: '100vh',
+        height: '70vh',
         alignItems: 'center',
         justifyContent: 'center',
       }}

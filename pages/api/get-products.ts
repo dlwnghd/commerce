@@ -4,6 +4,7 @@
  * AUTHOR     : Lee Juhong
  * CREATEDATE : 2023-10-10
  * UPDATEDATE : 2023-10-12 / API 결과 메세지 수정 / Lee Juhong
+ * UPDATEDATE : 2023-10-13 / API 요청 데이터 타입 수정 / Lee Juhong
  */
 
 import { PrismaClient } from '@prisma/client'
@@ -34,7 +35,9 @@ async function getProducts({
       : containsCondition
       ? containsCondition
       : undefined
+
   const orderByCondition = getOrderBy(orderBy)
+
   try {
     const response = await prisma.products.findMany({
       skip: skip,
@@ -68,7 +71,7 @@ export default async function handler(
       take: Number(take),
       category: Number(category),
       orderBy: String(orderBy),
-      contains: String(contains),
+      contains: contains ? String(contains) : '',
     })
     res.status(200).json({ items: products, message: 'Success get Products' })
   } catch (error) {
