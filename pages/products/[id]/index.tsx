@@ -5,10 +5,11 @@
  * CREATEDATE : 2023-10-10
  * UPDATEDATE : 2023-10-12 / 상세 페이지 찜하기 버튼 및 레이아웃 추가 / Lee Juhong
  * UPDATEDATE : 2023-10-13 / 장바구니 버튼 UI 추가 / Lee Juhong
+ * UPDATEDATE : 2023-10-16 / 장바구니 기능 추가 / Lee Juhong
  */
 
 import { Button } from '@mantine/core'
-import { products } from '@prisma/client'
+import { Cart, products } from '@prisma/client'
 import { IconHeart, IconHeartbeat, IconShoppingCart } from '@tabler/icons-react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { format } from 'date-fns'
@@ -23,6 +24,7 @@ import { useState } from 'react'
 import { CountControl } from '@@components/CountControl'
 import CustomEditor from '@@components/Editor'
 import { CATEGORY_MAP } from '@@constants/products'
+import { CART_QUERY_KEY } from '@@pages/cart'
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const product = await fetch(
@@ -37,7 +39,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   }
 }
 
-const WISHLIST_QUERY_KEY = '/api/get-wishlist'
+const WISHLIST_QUERY_KEY = '/api/get-wishlists'
 
 export default function Products(props: {
   product: products & { images: string[] }
@@ -65,7 +67,7 @@ export default function Products(props: {
   )
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { mutate /*, isLoading*/ } = useMutation<unknown, unknown, string, any>(
+  const { mutate } = useMutation<unknown, unknown, string, any>(
     (productId) =>
       fetch('/api/update-wishlist', {
         method: 'POST',
@@ -93,24 +95,52 @@ export default function Products(props: {
       onError: (error, _, context) => {
         queryClient.setQueryData([WISHLIST_QUERY_KEY], context.previous)
       },
-      onSettled: () => {
+      onSuccess: () => {
         queryClient.invalidateQueries([WISHLIST_QUERY_KEY])
       },
     },
   )
+
+  const { mutate: addCart /*, isLoading*/ } = useMutation<
+    unknown,
+    unknown,
+    Omit<Cart, 'id' | 'userId'>,
+    unknown
+  >(
+    (item) =>
+      fetch('/api/add-cart', {
+        method: 'POST',
+        body: JSON.stringify({ item }),
+      })
+        .then((res) => res.json())
+        .then((data) => data.items),
+    {
+      onMutate: () => {
+        queryClient.invalidateQueries([CART_QUERY_KEY])
+      },
+      onSuccess: () => {
+        router.push('/cart')
+      },
+    },
+  )
+
+  const product = props.product
+
   const validate = (type: 'cart' | 'order') => {
     if (quantity == null) {
-      console.log(type)
       alert('최소 수량을 선택하세요.')
       return
     }
 
     // TODO: 장바구니에 등록하는 기능 추가
-
-    router.push('/cart')
+    if (type === 'cart') {
+      addCart({
+        productId: product.id,
+        quantity: quantity,
+        amount: product.price * quantity,
+      })
+    }
   }
-
-  const product = props.product
 
   const isWished =
     wishlist != null && productId != null
@@ -191,7 +221,6 @@ export default function Products(props: {
                 장바구니
               </Button>
               <Button
-                // loading={isLoading}
                 disabled={session == null}
                 leftIcon={
                   isWished ? (
