@@ -3,7 +3,7 @@
  * PURPOSE    : 헤더 컴포넌트
  * AUTHOR     : Lee Juhong
  * CREATEDATE : 2023-10-13
- * UPDATEDATE : -
+ * UPDATEDATE : 2023-10-16 / 찜목록 url경로 수정 / Lee Juhong
  */
 
 import {
@@ -28,7 +28,7 @@ export default function Header() {
         <IconHeart
           className="mr-4"
           onClick={() =>
-            session ? router.push('/wish') : router.push('/auth/login')
+            session ? router.push('/wishlist') : router.push('/auth/login')
           }
         />
         <IconShoppingCart
