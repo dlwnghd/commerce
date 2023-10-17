@@ -4,9 +4,10 @@
  * AUTHOR     : Lee Juhong
  * CREATEDATE : 2023-10-11
  * UPDATEDATE : 2023-10-13 / UI 수정 / Lee Juhong
+ * UPDATEDATE : 2023-10-17 / 컴포넌트 명칭 수정 / Lee Juhong
  */
 
-import GoogleLogin from '@@components/GoogleLogin'
+import SessionLogin from '@@components/SessionLogin'
 
 export default function Login() {
   return (
@@ -18,7 +19,7 @@ export default function Login() {
         justifyContent: 'center',
       }}
     >
-      <GoogleLogin />
+      <SessionLogin />
     </div>
   )
 }

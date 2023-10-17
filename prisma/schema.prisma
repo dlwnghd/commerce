@@ -5,6 +5,7 @@
 // UPDATEDATE : 2023-10-11 / Auth.js에 맞춘 schema 추가 / Lee Juhong
 // UPDATEDATE : 2023-10-12 / 찜 하기 WishList 추가 / Lee Juhong
 // UPDATEDATE : 2023-10-16 / 장바구니 Cart 추가 / Lee Juhong
+// UPDATEDATE : 2023-10-17 / Account 테이블 수정 / Lee Juhong
 
 generator client {
   provider        = "prisma-client-js"
@@ -42,18 +43,19 @@ model users {
 }
 
 model Account {
-  id                String  @id @default(cuid())
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String? @db.Text
-  session_state     String?
+  id                       String  @id @default(cuid())
+  userId                   String
+  type                     String
+  provider                 String
+  providerAccountId        String
+  refresh_token            String? @db.Text
+  access_token             String? @db.Text
+  expires_at               Int?
+  token_type               String?
+  scope                    String?
+  id_token                 String? @db.Text
+  session_state            String?
+  refresh_token_expires_in Int?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -65,6 +67,7 @@ model Session {
   sessionToken String   @unique
   userId       String
   expires      DateTime
+  refresh_token_expires_in Int?
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 

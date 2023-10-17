@@ -4,15 +4,16 @@
  * AUTHOR     : Lee Juhong
  * CREATEDATE : 2023-10-10
  * UPDATEDATE : 2023-10-12 / GoggleOAuthProvider 이동 / Lee Juhong
+ * UPDATEDATE : 2023-10-17 / Auth 명칭 변경 / Lee Juhong
  */
 
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google'
 
-import { CLIENT_ID } from '@@constants/googleAuth'
+import { GOOGLE_CLIENT_ID } from '@@constants/Auth'
 
 export default function Google() {
   return (
-    <GoogleOAuthProvider clientId={CLIENT_ID}>
+    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
       <div style={{ display: 'flex' }}>
         <GoogleLogin
           onSuccess={(credentialResponse) => {

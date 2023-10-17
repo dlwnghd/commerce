@@ -1,16 +1,16 @@
 /**
- * FILENAME   : GoogleLogin.tsx
- * PURPOSE    : 구글 로그인 컴포넌트
+ * FILENAME   : SessionLogin.tsx
+ * PURPOSE    : 세션 로그인 컴포넌트
  * AUTHOR     : Lee Juhong
- * CREATEDATE : 2023-10-11
- * UPDATEDATE : 2023-10-13 / 컴포넌트명 변경 / Lee Juhong
+ * CREATEDATE : 2023-10-17
+ * UPDATEDATE : -
  */
 
 import { signIn, signOut, useSession } from 'next-auth/react'
 
 import Button from './Button'
 
-export default function GoogleLogin() {
+export default function SessionLogin() {
   const { data: session } = useSession()
 
   return (
