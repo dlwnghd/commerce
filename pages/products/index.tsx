@@ -3,12 +3,14 @@
  * PURPOSE    : 상품 리스트 컴포넌트
  * AUTHOR     : Lee Juhong
  * CREATEDATE : 2023-10-10
- * UPDATEDATE : -
+ * UPDATEDATE : 2023-10-18 / QUERY 키 호출 추가 / Lee Juhong
  */
 
 import { products } from '@prisma/client'
 import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
+
+import { GET_PRODUCTS_QUERY_KEY } from '@@constants/QueryKey'
 
 const TAKE = 9
 export default function Products() {
@@ -16,14 +18,14 @@ export default function Products() {
   const [products, setProducts] = useState<products[]>([])
 
   useEffect(() => {
-    fetch(`/api/get-products?skip=0&take=${TAKE}`)
+    fetch(`${GET_PRODUCTS_QUERY_KEY}?skip=0&take=${TAKE}`)
       .then((res) => res.json())
       .then((data) => setProducts(data.items))
   }, [])
 
   const getProducts = useCallback(() => {
     const next = skip + TAKE
-    fetch(`/api/get-products?skip=${next}&take=${TAKE}`)
+    fetch(`${GET_PRODUCTS_QUERY_KEY}?skip=${next}&take=${TAKE}`)
       .then((res) => res.json())
       .then((data) => {
         const list = products.concat(data.items)

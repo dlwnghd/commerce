@@ -4,6 +4,7 @@
  * AUTHOR     : Lee Juhong
  * CREATEDATE : 2023-10-10
  * UPDATEDATE : 2023-10-16 / 파일명 변경 및 API 기능 수정 / Lee Juhong
+ * UPDATEDATE : 2023-10-18 / response응답 수정 및 타입 변경 / Lee Juhong
  */
 
 import { PrismaClient, products } from '@prisma/client'
@@ -57,8 +58,7 @@ async function getWishLists(userId: string, category: number) {
 }
 
 type Data = {
-  items?: products[] | []
-  // items?: any
+  items?: products[]
   message: string
 }
 
@@ -69,14 +69,14 @@ export default async function handler(
   const { category } = req.query
   const session = await getServerSession(req, res, authOptions)
   if (session == null) {
-    res.status(200).json({ items: [], message: 'no Session' })
+    res.status(200).json({ message: 'No Session' })
     return
   }
 
   try {
     const wishlist = await getWishLists(String(session.id), Number(category))
-    res.status(200).json({ items: wishlist, message: 'Success get WishList' })
+    res.status(200).json({ items: wishlist, message: 'Success Get WishList' })
   } catch (error) {
-    res.status(400).json({ message: 'Failed get Product' })
+    res.status(400).json({ message: 'Failed Get WishList' })
   }
 }

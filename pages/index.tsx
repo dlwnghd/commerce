@@ -4,6 +4,7 @@
  * AUTHOR     : Lee Juhong
  * CREATEDATE : 2023-10-10
  * UPDATEDATE : 2023-10-13 / 메인 페이지 수정 / Lee Juhong
+ * UPDATEDATE : 2023-10-18 / QUERY 키 호출 추가 / Lee Juhong
  */
 
 import { Input, Pagination, SegmentedControl, Select } from '@mantine/core'
@@ -15,6 +16,11 @@ import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 
 import { CATEGORY_MAP, FILTERS, TAKE } from '@@constants/products'
+import {
+  GET_CATEGORY_QUERY_KEY,
+  GET_PRODUCT_COUNT_QUERY_KEY,
+  GET_PRODUCTS_QUERY_KEY,
+} from '@@constants/QueryKey'
 import useDebounce from '@@hooks/useDebounce'
 
 export default function Home() {
@@ -33,18 +39,18 @@ export default function Home() {
     unknown,
     categories[]
   >(
-    ['/api/get-categories'],
-    () => fetch('/api/get-categories').then((res) => res.json()),
+    [GET_CATEGORY_QUERY_KEY],
+    () => fetch(GET_CATEGORY_QUERY_KEY).then((res) => res.json()),
     { select: (data) => data.items },
   )
 
   const { data: total } = useQuery(
     [
-      `/api/get-products-count?category=${selectedCategory}&contains=${debouncedKeyword}`,
+      `${GET_PRODUCT_COUNT_QUERY_KEY}?category=${selectedCategory}&contains=${debouncedKeyword}`,
     ],
     () =>
       fetch(
-        `/api/get-products-count?category=${selectedCategory}&contains=${debouncedKeyword}`,
+        `${GET_PRODUCT_COUNT_QUERY_KEY}?category=${selectedCategory}&contains=${debouncedKeyword}`,
       )
         .then((res) => res.json())
         .then((data) => Math.ceil(data.items / TAKE)),
@@ -56,13 +62,13 @@ export default function Home() {
     products[]
   >(
     [
-      `/api/get-products?skip=${
+      `${GET_PRODUCTS_QUERY_KEY}?skip=${
         TAKE * (activePage - 1)
       }&take=${TAKE}&category=${selectedCategory}&orderBy=${selectedFilter}&contains=${debouncedKeyword}`,
     ],
     () =>
       fetch(
-        `/api/get-products?skip=${
+        `${GET_PRODUCTS_QUERY_KEY}?skip=${
           TAKE * (activePage - 1)
         }&take=${TAKE}&category=${selectedCategory}&orderBy=${selectedFilter}&contains=${debouncedKeyword}`,
       ).then((res) => res.json()),

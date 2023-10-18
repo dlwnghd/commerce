@@ -4,6 +4,7 @@
  * AUTHOR     : Lee Juhong
  * CREATEDATE : 2023-10-13
  * UPDATEDATE : 2023-10-16 / 파일명 변경 및 UI 수정 / Lee Juhong
+ * UPDATEDATE : 2023-10-18 / QUERY 키 호출 추가 / Lee Juhong
  */
 
 import { SegmentedControl } from '@mantine/core'
@@ -14,6 +15,10 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 
 import { CATEGORY_MAP } from '@@constants/products'
+import {
+  GET_CATEGORY_QUERY_KEY,
+  GET_WISHLIST_QUERY_KEY,
+} from '@@constants/QueryKey'
 
 export default function Wishlist() {
   const router = useRouter()
@@ -24,8 +29,8 @@ export default function Wishlist() {
     unknown,
     categories[]
   >(
-    ['/api/get-categories'],
-    () => fetch('/api/get-categories').then((res) => res.json()),
+    [GET_CATEGORY_QUERY_KEY],
+    () => fetch(GET_CATEGORY_QUERY_KEY).then((res) => res.json()),
     { select: (data) => data.items },
   )
 
@@ -34,10 +39,10 @@ export default function Wishlist() {
     unknown,
     products[]
   >(
-    [`/api/get-wishlists?category=${selectedCategory}`],
+    [`${GET_WISHLIST_QUERY_KEY}?category=${selectedCategory}`],
     () =>
-      fetch(`/api/get-wishlists?category=${selectedCategory}`).then((res) =>
-        res.json(),
+      fetch(`${GET_WISHLIST_QUERY_KEY}?category=${selectedCategory}`).then(
+        (res) => res.json(),
       ),
     {
       select: (data) => data.items,

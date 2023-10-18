@@ -3,7 +3,7 @@
  * PURPOSE    : 게시판 수정 컴포넌트
  * AUTHOR     : Lee Juhong
  * CREATEDATE : 2023-10-10
- * UPDATEDATE : -
+ * UPDATEDATE : 2023-10-18 / QUERY 키 호출 추가 / Lee Juhong
  */
 
 import { convertFromRaw, convertToRaw, EditorState } from 'draft-js'
@@ -13,6 +13,10 @@ import Carousel from 'nuka-carousel'
 import { useEffect, useState } from 'react'
 
 import CustomEditor from '@@components/Editor'
+import {
+  GET_PRODUCTS_QUERY_KEY,
+  UPDATE_PRODUCT_QUERY_KEY,
+} from '@@constants/QueryKey'
 
 const images = [
   {
@@ -61,7 +65,7 @@ export default function Products() {
 
   useEffect(() => {
     if (productId != null) {
-      fetch(`/api/get-product?id=${productId}`)
+      fetch(`${GET_PRODUCTS_QUERY_KEY}?id=${productId}`)
         .then((res) => res.json())
         .then((data) => {
           if (data.items.contents) {
@@ -79,7 +83,7 @@ export default function Products() {
 
   const handleSave = () => {
     if (editorState) {
-      fetch('/api/update-product', {
+      fetch(UPDATE_PRODUCT_QUERY_KEY, {
         method: 'POST',
         body: JSON.stringify({
           id: Number(productId),

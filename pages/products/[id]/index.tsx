@@ -6,10 +6,11 @@
  * UPDATEDATE : 2023-10-12 / 상세 페이지 찜하기 버튼 및 레이아웃 추가 / Lee Juhong
  * UPDATEDATE : 2023-10-13 / 장바구니 버튼 UI 추가 / Lee Juhong
  * UPDATEDATE : 2023-10-16 / 장바구니 기능 추가 / Lee Juhong
+ * UPDATEDATE : 2023-10-18 / 주문하기 기능 추가 / Lee Juhong
  */
 
 import { Button } from '@mantine/core'
-import { Cart, products } from '@prisma/client'
+import { Cart, OrderItem, products } from '@prisma/client'
 import { IconHeart, IconHeartbeat, IconShoppingCart } from '@tabler/icons-react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { format } from 'date-fns'
@@ -24,11 +25,19 @@ import { useState } from 'react'
 import { CountControl } from '@@components/CountControl'
 import CustomEditor from '@@components/Editor'
 import { CATEGORY_MAP } from '@@constants/products'
-import { CART_QUERY_KEY } from '@@pages/cart'
+import {
+  ADD_CART_QUERY_KEY,
+  ADD_ORDER_QUERY_KEY,
+  GET_CART_QUERY_KEY,
+  GET_ORDER_QUERY_KEY,
+  GET_PRODUCT_QUERY_KEY,
+  GET_WISHLIST_QUERY_KEY,
+  UPDATE_WISHLIST_QUERY_KEY,
+} from '@@constants/QueryKey'
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const product = await fetch(
-    `http://localhost:3000/api/get-product?id=${context.params?.id}`,
+    `http://localhost:3000${GET_PRODUCT_QUERY_KEY}?id=${context.params?.id}`,
   )
     .then((res) => res.json())
     .then((data) => data.items)
@@ -38,8 +47,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     },
   }
 }
-
-const WISHLIST_QUERY_KEY = '/api/get-wishlists'
 
 export default function Products(props: {
   product: products & { images: string[] }
@@ -60,8 +67,8 @@ export default function Products(props: {
       : EditorState.createEmpty(),
   )
 
-  const { data: wishlist } = useQuery([WISHLIST_QUERY_KEY], () =>
-    fetch(WISHLIST_QUERY_KEY)
+  const { data: wishlist } = useQuery([GET_WISHLIST_QUERY_KEY], () =>
+    fetch(GET_WISHLIST_QUERY_KEY)
       .then((res) => res.json())
       .then((data) => data.items),
   )
@@ -69,7 +76,7 @@ export default function Products(props: {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { mutate } = useMutation<unknown, unknown, string, any>(
     (productId) =>
-      fetch('/api/update-wishlist', {
+      fetch(UPDATE_WISHLIST_QUERY_KEY, {
         method: 'POST',
         body: JSON.stringify({ productId }),
       })
@@ -77,11 +84,11 @@ export default function Products(props: {
         .then((data) => data.items),
     {
       onMutate: async (productId) => {
-        await queryClient.cancelQueries({ queryKey: [WISHLIST_QUERY_KEY] })
+        await queryClient.cancelQueries({ queryKey: [GET_WISHLIST_QUERY_KEY] })
 
-        const previous = queryClient.getQueryData([WISHLIST_QUERY_KEY])
+        const previous = queryClient.getQueryData([GET_WISHLIST_QUERY_KEY])
 
-        queryClient.setQueryData<string[]>([WISHLIST_QUERY_KEY], (old) =>
+        queryClient.setQueryData<string[]>([GET_WISHLIST_QUERY_KEY], (old) =>
           old
             ? old.includes(String(productId))
               ? old.filter((id) => id !== String(productId))
@@ -93,10 +100,10 @@ export default function Products(props: {
         return { previousTodos: previous }
       },
       onError: (error, _, context) => {
-        queryClient.setQueryData([WISHLIST_QUERY_KEY], context.previous)
+        queryClient.setQueryData([GET_WISHLIST_QUERY_KEY], context.previous)
       },
       onSuccess: () => {
-        queryClient.invalidateQueries([WISHLIST_QUERY_KEY])
+        queryClient.invalidateQueries([GET_WISHLIST_QUERY_KEY])
       },
     },
   )
@@ -108,7 +115,7 @@ export default function Products(props: {
     unknown
   >(
     (item) =>
-      fetch('/api/add-cart', {
+      fetch(ADD_CART_QUERY_KEY, {
         method: 'POST',
         body: JSON.stringify({ item }),
       })
@@ -116,10 +123,33 @@ export default function Products(props: {
         .then((data) => data.items),
     {
       onMutate: () => {
-        queryClient.invalidateQueries([CART_QUERY_KEY])
+        queryClient.invalidateQueries([GET_CART_QUERY_KEY])
       },
       onSuccess: () => {
         router.push('/cart')
+      },
+    },
+  )
+
+  const { mutate: addOrder } = useMutation<
+    unknown,
+    unknown,
+    Omit<OrderItem, 'id'>[],
+    unknown
+  >(
+    (items) =>
+      fetch(ADD_ORDER_QUERY_KEY, {
+        method: 'POST',
+        body: JSON.stringify({ items }),
+      })
+        .then((data) => data.json())
+        .then((res) => res.items),
+    {
+      onMutate: () => {
+        queryClient.invalidateQueries([GET_ORDER_QUERY_KEY])
+      },
+      onSuccess: () => {
+        router.push('/my')
       },
     },
   )
@@ -140,6 +170,16 @@ export default function Products(props: {
         amount: product.price * quantity,
       })
     }
+    if (type === 'order') {
+      addOrder([
+        {
+          productId: product.id,
+          quantity: quantity,
+          price: product.price,
+          amount: product.price * quantity,
+        },
+      ])
+    }
   }
 
   const isWished =
@@ -150,7 +190,7 @@ export default function Products(props: {
   return (
     <>
       {product != null && productId != null ? (
-        <div className="flex flex-row">
+        <div className="flex flex-row justify-center">
           <div style={{ maxWidth: 600, marginRight: 52 }}>
             <Carousel
               animation="fade"
@@ -247,6 +287,24 @@ export default function Products(props: {
                 찜하기
               </Button>
             </div>
+            <Button
+              style={{ backgroundColor: 'black' }}
+              radius="xl"
+              size="md"
+              styles={{
+                root: { paddingRight: 14, height: 48 },
+              }}
+              onClick={() => {
+                if (session == null) {
+                  alert('로그인이 필요해요')
+                  router.push('/auth/login')
+                  return
+                }
+                validate('order')
+              }}
+            >
+              구매하기
+            </Button>
             <div className="text-sm text-zinc-300">
               등록 : {format(new Date(product.createdAt), 'yyyy년 M월 d일')}
             </div>

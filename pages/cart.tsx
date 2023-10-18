@@ -4,11 +4,12 @@
  * AUTHOR     : Lee Juhong
  * CREATEDATE : 2023-10-13
  * UPDATEDATE : 2023-10-16 / 장바구니 기능 구현 / Lee Juhong
+ * UPDATEDATE : 2023-10-18 / 주문하기 기능 구현 / Lee Juhong
  */
 
 import emotionStyled from '@emotion/styled'
 import { Button } from '@mantine/core'
-import { Cart, products } from '@prisma/client'
+import { Cart, OrderItem, products } from '@prisma/client'
 import { IconRefresh, IconX } from '@tabler/icons-react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import Image from 'next/image'
@@ -17,6 +18,14 @@ import { useEffect, useMemo, useState } from 'react'
 
 import { CountControl } from '@@components/CountControl'
 import { CATEGORY_MAP } from '@@constants/products'
+import {
+  ADD_ORDER_QUERY_KEY,
+  DELETE_CART_QUERY_KEY,
+  GET_CART_QUERY_KEY,
+  GET_ORDER_QUERY_KEY,
+  GET_PRODUCTS_QUERY_KEY,
+  UPDATE_CART_QUERY_KEY,
+} from '@@constants/QueryKey'
 
 interface CartItem extends Cart {
   name: string
@@ -24,15 +33,14 @@ interface CartItem extends Cart {
   image_url: string
 }
 
-export const CART_QUERY_KEY = '/api/get-cart'
-
 export default function CartPage() {
   const router = useRouter()
+  const queryClient = useQueryClient()
 
   const { data } = useQuery<{ items: CartItem[] }, unknown, CartItem[]>(
-    [CART_QUERY_KEY],
+    [GET_CART_QUERY_KEY],
     () =>
-      fetch(CART_QUERY_KEY)
+      fetch(GET_CART_QUERY_KEY)
         .then((res) => res.json())
         .then((data) => data.items),
   )
@@ -54,15 +62,52 @@ export default function CartPage() {
     unknown,
     products[]
   >(
-    ['/api/get-products?skip=0&take=3'],
-    () => fetch('/api/get-products?skip=0&take=3').then((res) => res.json()),
+    [GET_PRODUCTS_QUERY_KEY + '?skip=0&take=3'],
+    () =>
+      fetch(GET_PRODUCTS_QUERY_KEY + '?skip=0&take=3').then((res) =>
+        res.json(),
+      ),
     {
       select: (data) => data.items,
     },
   )
 
+  const { mutate: addOrder } = useMutation<
+    unknown,
+    unknown,
+    Omit<OrderItem, 'id'>[],
+    unknown
+  >(
+    (items) =>
+      fetch(ADD_ORDER_QUERY_KEY, {
+        method: 'POST',
+        body: JSON.stringify({ items }),
+      })
+        .then((data) => data.json())
+        .then((res) => res.items),
+    {
+      onMutate: () => {
+        queryClient.invalidateQueries([GET_ORDER_QUERY_KEY])
+      },
+      onSuccess: () => {
+        router.push('/my')
+      },
+    },
+  )
+
   const handleOrder = () => {
     //TODO: 주문하기 기능 구현
+    if (data == null) {
+      return
+    }
+    addOrder(
+      data.map((cart) => ({
+        productId: cart.productId,
+        price: cart.price,
+        amount: cart.amount,
+        quantity: cart.quantity,
+      })),
+    )
     alert(`장바구니에 담긴 것들 ${JSON.stringify(data)} 주문`)
   }
 
@@ -174,7 +219,7 @@ const Item = (props: CartItem) => {
 
   const { mutate: updateCart } = useMutation<unknown, unknown, Cart, unknown>(
     (item) =>
-      fetch('/api/update-cart', {
+      fetch(UPDATE_CART_QUERY_KEY, {
         method: 'POST',
         body: JSON.stringify({ item }),
       })
@@ -182,12 +227,12 @@ const Item = (props: CartItem) => {
         .then((data) => data.items),
     {
       onMutate: async (item) => {
-        await queryClient.cancelQueries({ queryKey: [CART_QUERY_KEY] })
+        await queryClient.cancelQueries({ queryKey: [GET_CART_QUERY_KEY] })
 
-        const previous = queryClient.getQueryData([CART_QUERY_KEY])
+        const previous = queryClient.getQueryData([GET_CART_QUERY_KEY])
 
         queryClient.setQueryData<Cart[]>(
-          [CART_QUERY_KEY],
+          [GET_CART_QUERY_KEY],
           (old) => old?.filter((c) => c.id !== item.id).concat(item),
         )
 
@@ -196,18 +241,18 @@ const Item = (props: CartItem) => {
       },
       onError: (error, _, context) => {
         if (context) {
-          queryClient.setQueryData([CART_QUERY_KEY], context)
+          queryClient.setQueryData([GET_CART_QUERY_KEY], context)
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries([CART_QUERY_KEY])
+        queryClient.invalidateQueries([GET_CART_QUERY_KEY])
       },
     },
   )
 
   const { mutate: deleteCart } = useMutation<unknown, unknown, number, unknown>(
     (id) =>
-      fetch('/api/delete-cart', {
+      fetch(DELETE_CART_QUERY_KEY, {
         method: 'POST',
         body: JSON.stringify({ id }),
       })
@@ -215,12 +260,12 @@ const Item = (props: CartItem) => {
         .then((data) => data.items),
     {
       onMutate: async (id) => {
-        await queryClient.cancelQueries({ queryKey: [CART_QUERY_KEY] })
+        await queryClient.cancelQueries({ queryKey: [GET_CART_QUERY_KEY] })
 
-        const previous = queryClient.getQueryData([CART_QUERY_KEY])
+        const previous = queryClient.getQueryData([GET_CART_QUERY_KEY])
 
         queryClient.setQueryData<Cart[]>(
-          [CART_QUERY_KEY],
+          [GET_CART_QUERY_KEY],
           (old) => old?.filter((c) => c.id !== id),
         )
 
@@ -229,11 +274,11 @@ const Item = (props: CartItem) => {
       },
       onError: (error, _, context) => {
         if (context) {
-          queryClient.setQueryData([CART_QUERY_KEY], context)
+          queryClient.setQueryData([GET_CART_QUERY_KEY], context)
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries([CART_QUERY_KEY])
+        queryClient.invalidateQueries([GET_CART_QUERY_KEY])
       },
     },
   )

@@ -5,6 +5,7 @@
  * CREATEDATE : 2023-10-10
  * UPDATEDATE : 2023-10-11 / Session Test / Lee Juhong
  * UPDATEDATE : 2023-10-12 / 상품 상세 페이지 이동 기능 추가 / Lee Juhong
+ * UPDATEDATE : 2023-10-18 / QUERY 키 호출 추가 / Lee Juhong
  */
 
 import { Input, Pagination, SegmentedControl, Select } from '@mantine/core'
@@ -17,6 +18,11 @@ import { useSession } from 'next-auth/react'
 import React, { useState } from 'react'
 
 import { CATEGORY_MAP, FILTERS, TAKE } from '@@constants/products'
+import {
+  GET_CATEGORY_QUERY_KEY,
+  GET_PRODUCT_COUNT_QUERY_KEY,
+  GET_PRODUCTS_QUERY_KEY,
+} from '@@constants/QueryKey'
 import useDebounce from '@@hooks/useDebounce'
 
 export default function Products() {
@@ -36,31 +42,22 @@ export default function Products() {
     unknown,
     categories[]
   >(
-    ['/api/get-categories'],
-    () => fetch('/api/get-categories').then((res) => res.json()),
+    [GET_CATEGORY_QUERY_KEY],
+    () => fetch(GET_CATEGORY_QUERY_KEY).then((res) => res.json()),
     { select: (data) => data.items },
   )
 
   const { data: total } = useQuery(
     [
-      `/api/get-products-count?category=${selectedCategory}&contains=${debouncedKeyword}`,
+      `${GET_PRODUCT_COUNT_QUERY_KEY}?category=${selectedCategory}&contains=${debouncedKeyword}`,
     ],
     () =>
       fetch(
-        `/api/get-products-count?category=${selectedCategory}&contains=${debouncedKeyword}`,
+        `${GET_PRODUCT_COUNT_QUERY_KEY}?category=${selectedCategory}&contains=${debouncedKeyword}`,
       )
         .then((res) => res.json())
         .then((data) => Math.ceil(data.items / TAKE)),
   )
-
-  // useEffect(() => {
-  //   const skip = TAKE * (activePage - 1)
-  //   fetch(
-  //     `/api/get-products?skip=${skip}&take=${TAKE}&category=${selectedCategory}&orderBy=${selectedFilter}&contains=${debouncedKeyword}`,
-  //   )
-  //     .then((res) => res.json())
-  //     .then((data) => setProducts(data.items))
-  // }, [activePage, selectedCategory, selectedFilter, debouncedKeyword])
 
   const { data: products } = useQuery<
     { items: products[] },
@@ -68,13 +65,13 @@ export default function Products() {
     products[]
   >(
     [
-      `/api/get-products?skip=${
+      `${GET_PRODUCTS_QUERY_KEY}?skip=${
         TAKE * (activePage - 1)
       }&take=${TAKE}&category=${selectedCategory}&orderBy=${selectedFilter}&contains=${debouncedKeyword}`,
     ],
     () =>
       fetch(
-        `/api/get-products?skip=${
+        `${GET_PRODUCTS_QUERY_KEY}?skip=${
           TAKE * (activePage - 1)
         }&take=${TAKE}&category=${selectedCategory}&orderBy=${selectedFilter}&contains=${debouncedKeyword}`,
       ).then((res) => res.json()),

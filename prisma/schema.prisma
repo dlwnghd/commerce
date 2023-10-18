@@ -63,12 +63,12 @@ model Account {
 }
 
 model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
+  id                       String   @id @default(cuid())
+  sessionToken             String   @unique
+  userId                   String
+  expires                  DateTime
   refresh_token_expires_in Int?
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user                     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
@@ -103,4 +103,23 @@ model Cart {
   amount    Int
 
   @@unique([userId, productId])
+}
+
+model OrderItem {
+  id        Int @id @default(autoincrement())
+  productId Int
+  quantity  Int
+  price     Int
+  amount    Int
+}
+
+model Orders {
+  id           Int      @id @default(autoincrement())
+  userId       String
+  orderItemIds String
+  receiver     String?
+  address      String?
+  phoneNumber  String?
+  createdAt    DateTime @default(now())
+  status       Int
 }
