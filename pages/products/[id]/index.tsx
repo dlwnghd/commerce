@@ -7,10 +7,11 @@
  * UPDATEDATE : 2023-10-13 / 장바구니 버튼 UI 추가 / Lee Juhong
  * UPDATEDATE : 2023-10-16 / 장바구니 기능 추가 / Lee Juhong
  * UPDATEDATE : 2023-10-18 / 주문하기 기능 추가 / Lee Juhong
+ * UPDATEDATE : 2023-10-19 / 후기 글 조회 기능 추가 / Lee Juhong
  */
 
 import { Button } from '@mantine/core'
-import { Cart, OrderItem, products } from '@prisma/client'
+import { Cart, Comment, OrderItem, products } from '@prisma/client'
 import { IconHeart, IconHeartbeat, IconShoppingCart } from '@tabler/icons-react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { format } from 'date-fns'
@@ -22,6 +23,7 @@ import { useSession } from 'next-auth/react'
 import Carousel from 'nuka-carousel'
 import { useState } from 'react'
 
+import CommentItem from '@@components/CommentItem'
 import { CountControl } from '@@components/CountControl'
 import CustomEditor from '@@components/Editor'
 import { CATEGORY_MAP } from '@@constants/products'
@@ -29,6 +31,7 @@ import {
   ADD_CART_QUERY_KEY,
   ADD_ORDER_QUERY_KEY,
   GET_CART_QUERY_KEY,
+  GET_COMMENTS_QUERY_KEY,
   GET_ORDER_QUERY_KEY,
   GET_PRODUCT_QUERY_KEY,
   GET_WISHLIST_QUERY_KEY,
@@ -41,15 +44,25 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   )
     .then((res) => res.json())
     .then((data) => data.items)
+
+  const comments = await fetch(
+    `http://localhost:3000${GET_COMMENTS_QUERY_KEY}?productId=${context.params?.id}`,
+  )
+    .then((res) => res.json())
+    .then((data) => data.items)
   return {
     props: {
       product: { ...product, images: [product.image_url, product.image_url] },
+      comments,
     },
   }
 }
 
+export interface CommentItemType extends Comment, OrderItem {}
+
 export default function Products(props: {
   product: products & { images: string[] }
+  comments: CommentItemType[]
 }) {
   const [index, setIndex] = useState(0)
   const { data: session } = useSession()
@@ -226,6 +239,13 @@ export default function Products(props: {
             {editorState != null && (
               <CustomEditor editorState={editorState} readOnly />
             )}
+            <div className="flex flex-col gap-2">
+              <p className="text-2xl font-semibold">후기</p>
+              {props.comments &&
+                props.comments.map((comment, idx) => (
+                  <CommentItem key={idx} item={comment} />
+                ))}
+            </div>
           </div>
           <div style={{ maxWidth: 600 }} className="flex flex-col space-y-6">
             <div className="text-lg text-zinc-400">

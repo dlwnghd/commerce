@@ -3,7 +3,7 @@
  * PURPOSE    : QueryKey 호출
  * AUTHOR     : Lee Juhong
  * CREATEDATE : 2023-10-18
- * UPDATEDATE : -
+ * UPDATEDATE : 2023-10-19 / COMMENT 쿼리문 추가 / Lee Juhong
  */
 
 // PRODUCT      | 상품
@@ -29,3 +29,8 @@ export const DELETE_CART_QUERY_KEY = '/api/delete-cart'
 export const ADD_ORDER_QUERY_KEY = '/api/add-order'
 export const GET_ORDER_QUERY_KEY = '/api/get-order'
 export const UPDATE_ORDER_STATUS_QUERY_KEY = '/api/update-order-status'
+
+// COMMENT      | 후기
+export const GET_COMMENT_QUERY_KEY = '/api/get-comment'
+export const GET_COMMENTS_QUERY_KEY = '/api/get-comments'
+export const UPDATE_COMMENT_QUERY_KEY = '/api/update-comment'
