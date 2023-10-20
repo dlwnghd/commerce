@@ -3,7 +3,7 @@
  * PURPOSE    : 후기글 컴포넌트
  * AUTHOR     : Lee Juhong
  * CREATEDATE : 2023-10-19
- * UPDATEDATE : -
+ * UPDATEDATE : 2023-10-20 / 후기 이미지 추가 / Lee Juhong
  */
 
 import styled from '@emotion/styled'
@@ -12,6 +12,7 @@ import { format } from 'date-fns'
 import { convertFromRaw, EditorState } from 'draft-js'
 import { CommentItemType } from 'pages/products/[id]'
 
+import AutoSizeImage from './AutoSizeImage'
 import CustomEditor from './Editor'
 
 export default function CommentItem({ item }: { item: CommentItemType }) {
@@ -45,6 +46,13 @@ export default function CommentItem({ item }: { item: CommentItemType }) {
           readOnly
           noPadding
         />
+      </div>
+      <div style={{ display: 'flex' }}>
+        {item.images
+          ?.split(',')
+          .map((image, idx) => (
+            <AutoSizeImage key={idx} src={image} size={150} />
+          ))}
       </div>
     </Wrapper>
   )

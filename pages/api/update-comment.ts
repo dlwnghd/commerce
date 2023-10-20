@@ -3,7 +3,7 @@
  * PURPOSE    : 후기 글 업데이트 API
  * AUTHOR     : Lee Juhong
  * CREATEDATE : 2023-10-19
- * UPDATEDATE : -
+ * UPDATEDATE : 2023-10-20 / 후기 이미지 추가 / Lee Juhong
  */
 
 import { Comment, PrismaClient } from '@prisma/client'
@@ -19,11 +19,13 @@ async function updateComment({
   orderItemId,
   rate,
   contents,
+  images,
 }: {
   userId: string
   orderItemId: number
   rate: number
   contents: string
+  images: string
 }) {
   try {
     const response = await prisma.comment.upsert({
@@ -33,12 +35,14 @@ async function updateComment({
       update: {
         contents,
         rate,
+        images,
       },
       create: {
         userId,
         orderItemId,
         contents,
         rate,
+        images,
       },
     })
     console.log(response)
@@ -58,7 +62,7 @@ export default async function handler(
   res: NextApiResponse<Data>,
 ) {
   const session = await getServerSession(req, res, authOptions)
-  const { orderItemId, rate, contents } = JSON.parse(req.body)
+  const { orderItemId, rate, contents, images } = JSON.parse(req.body)
   if (session == null) {
     res.status(200).json({ message: 'no Session' })
     return
@@ -70,6 +74,7 @@ export default async function handler(
       orderItemId: Number(orderItemId),
       rate: rate,
       contents: contents,
+      images: images,
     })
     res.status(200).json({ items: comment, message: 'Success Update Comment' })
   } catch (error) {
