@@ -5,6 +5,7 @@
  * CREATEDATE : 2023-10-10
  * UPDATEDATE : 2023-10-13 / 구글 이미지 경로 추가 / Lee Juhong
  * UPDATEDATE : 2023-10-20 / ibb 이미지 경로 추가 / Lee Juhong
+ * UPDATEDATE : 2023-10-20 / 네이버 이미지 경로 추가 / Lee Juhong
  */
 
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
@@ -27,6 +28,7 @@ const nextConfig = {
       'lh3.googleusercontent.com',
       'k.kakaocdn.net',
       'i.ibb.co',
+      'ssl.pstatic.net',
     ],
   },
 }

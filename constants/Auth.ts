@@ -4,19 +4,32 @@
  * AUTHOR     : Lee Juhong
  * CREATEDATE : 2023-10-10
  * UPDATEDATE : 2023-10-18 / AuthSignIn Query키 호출형 추가 / Lee Juhong
+ * UPDATEDATE : 2023-10-20 / env파일 변수명 수정(CSR) / Lee Juhong
  */
 
 // GOOGLE
-export const GOOGLE_CLIENT_ID = String(process.env.GOOGLE_CLIENT_ID)
-export const GOOGLE_CLIENT_SECRET = String(process.env.GOOGLE_CLIENT_SECRET)
+export const NEXT_PUBLIC_GOOGLE_CLIENT_ID = String(
+  process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+)
+export const NEXT_PUBLIC_GOOGLE_CLIENT_SECRET = String(
+  process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET,
+)
 
 // KAKAO
-export const KAKAO_CLIENT_ID = String(process.env.KAKAO_CLIENT_ID)
-export const KAKAO_CLIENT_SECRET = String(process.env.KAKAO_CLIENT_SECRET)
+export const NEXT_PUBLIC_KAKAO_CLIENT_ID = String(
+  process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID,
+)
+export const NEXT_PUBLIC_KAKAO_CLIENT_SECRET = String(
+  process.env.NEXT_PUBLIC_KAKAO_CLIENT_SECRET,
+)
 
 // NAVER
-export const NAVER_CLIENT_ID = String(process.env.NAVER_CLIENT_ID)
-export const NAVER_CLIENT_SECRET = String(process.env.NAVER_CLIENT_SECRET)
+export const NEXT_PUBLIC_NAVER_CLIENT_ID = String(
+  process.env.NEXT_PUBLIC_NAVER_CLIENT_ID,
+)
+export const NEXT_PUBLIC_NAVER_CLIENT_SECRET = String(
+  process.env.NEXT_PUBLIC_NAVER_CLIENT_SECRET,
+)
 
 // AUTH_API_QUERY
 export const AUTH_SIGNIN_QUERY_KEY = '/api/auth/sign-in'

@@ -40,13 +40,13 @@ import {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const product = await fetch(
-    `http://localhost:3000${GET_PRODUCT_QUERY_KEY}?id=${context.params?.id}`,
+    `${process.env.NEXTAUTH_URL}${GET_PRODUCT_QUERY_KEY}?id=${context.params?.id}`,
   )
     .then((res) => res.json())
     .then((data) => data.items)
 
   const comments = await fetch(
-    `http://localhost:3000${GET_COMMENTS_QUERY_KEY}?productId=${context.params?.id}`,
+    `${process.env.NEXTAUTH_URL}${GET_COMMENTS_QUERY_KEY}?productId=${context.params?.id}`,
   )
     .then((res) => res.json())
     .then((data) => data.items)
