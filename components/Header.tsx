@@ -4,17 +4,19 @@
  * AUTHOR     : Lee Juhong
  * CREATEDATE : 2023-10-13
  * UPDATEDATE : 2023-10-16 / 찜목록 url경로 수정 / Lee Juhong
+ * UPDATEDATE : 2023-10-21 / 로그아웃 Icon 추가 / Lee Juhong
  */
 
 import {
   IconHeart,
   IconHome,
+  IconLogout,
   IconShoppingCart,
   IconUser,
 } from '@tabler/icons-react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useSession } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 
 export default function Header() {
   const { data: session } = useSession()
@@ -36,15 +38,18 @@ export default function Header() {
           onClick={() => router.push('/cart')}
         />
         {session ? (
-          <Image
-            alt="profile"
-            // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
-            src={session.user?.image!}
-            width={30}
-            height={30}
-            style={{ borderRadius: '50%' }}
-            onClick={() => router.push('/my')}
-          />
+          <div className="flex gap-3 items-center">
+            <Image
+              alt="profile"
+              // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+              src={session.user?.image!}
+              width={30}
+              height={30}
+              style={{ borderRadius: '50%' }}
+              onClick={() => router.push('/my')}
+            />
+            <IconLogout onClick={() => signOut()} />
+          </div>
         ) : (
           <IconUser onClick={() => router.push('/auth/login')} />
         )}
