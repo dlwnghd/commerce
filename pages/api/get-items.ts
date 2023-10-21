@@ -3,7 +3,7 @@
  * PURPOSE    : 전체 아이템 조회 API
  * AUTHOR     : Lee Juhong
  * CREATEDATE : 2023-10-10
- * UPDATEDATE : -
+ * UPDATEDATE : 2023-10-21 / typecheck 미사용 파라미터 수정 / Lee Juhong
  */
 
 import { Client } from '@notionhq/client'
@@ -39,7 +39,7 @@ type Data = {
 }
 
 export default async function handler(
-  req: NextApiRequest,
+  _: NextApiRequest,
   res: NextApiResponse<Data>,
 ) {
   try {

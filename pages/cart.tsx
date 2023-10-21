@@ -5,6 +5,7 @@
  * CREATEDATE : 2023-10-13
  * UPDATEDATE : 2023-10-16 / 장바구니 기능 구현 / Lee Juhong
  * UPDATEDATE : 2023-10-18 / 주문하기 기능 구현 / Lee Juhong
+ * UPDATEDATE : 2023-10-21 / typecheck 미사용 파라미터 수정 / Lee Juhong
  */
 
 import emotionStyled from '@emotion/styled'
@@ -239,7 +240,7 @@ const Item = (props: CartItem) => {
         // Return a context object with the snapshotted value
         return { previousTodos: previous }
       },
-      onError: (error, _, context) => {
+      onError: (__, _, context) => {
         if (context) {
           queryClient.setQueryData([GET_CART_QUERY_KEY], context)
         }
@@ -272,7 +273,7 @@ const Item = (props: CartItem) => {
         // Return a context object with the snapshotted value
         return { previousTodos: previous }
       },
-      onError: (error, _, context) => {
+      onError: (__, _, context) => {
         if (context) {
           queryClient.setQueryData([GET_CART_QUERY_KEY], context)
         }

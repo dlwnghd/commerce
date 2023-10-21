@@ -6,12 +6,14 @@
  * UPDATEDATE : 2023-10-11 / next-auth의 Sesstion Provider 추가 / Lee Juhong
  * UPDATEDATE : 2023-10-12 / GoggleOAuthProvider 이동 / Lee Juhong
  * UPDATEDATE : 2023-10-13 / 공통 UI(Header) 추가 / Lee Juhong
+ * UPDATEDATE : 2023-10-21 / SEO 상향(<title>, <meta> 추가) / Lee Juhong
  */
 
 import '@@styles/globals.css'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import type { AppProps } from 'next/app'
+import Head from 'next/head'
 import { SessionProvider } from 'next-auth/react'
 
 import Header from '@@components/Header'
@@ -30,6 +32,10 @@ export default function App({
     <>
       <SessionProvider session={session}>
         <QueryClientProvider client={queryClient}>
+          <Head>
+            <title>Commerce Service</title>
+            <meta name="desciprtion" content="commerce service LeeJuhong" />
+          </Head>
           <div className="px-36">
             <Header />
             <Component {...pageProps} />

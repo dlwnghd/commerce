@@ -8,6 +8,7 @@
  * UPDATEDATE : 2023-10-16 / 장바구니 기능 추가 / Lee Juhong
  * UPDATEDATE : 2023-10-18 / 주문하기 기능 추가 / Lee Juhong
  * UPDATEDATE : 2023-10-19 / 후기 글 조회 기능 추가 / Lee Juhong
+ * UPDATEDATE : 2023-10-21 / SEO 상향(<title>, <meta> 추가 및 typecheck 미사용 파라미터 수정) / Lee Juhong
  */
 
 import { Button } from '@mantine/core'
@@ -17,6 +18,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import { convertFromRaw, EditorState } from 'draft-js'
 import { GetServerSidePropsContext } from 'next'
+import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
@@ -112,7 +114,7 @@ export default function Products(props: {
         // Return a context object with the snapshotted value
         return { previousTodos: previous }
       },
-      onError: (error, _, context) => {
+      onError: (__, _, context) => {
         queryClient.setQueryData([GET_WISHLIST_QUERY_KEY], context.previous)
       },
       onSuccess: () => {
@@ -204,6 +206,10 @@ export default function Products(props: {
     <>
       {product != null && productId != null ? (
         <div className="flex flex-row justify-center">
+          <Head>
+            <title>{product.name}</title>
+            <meta name="desciprtion" content="commerce service LeeJuhong" />
+          </Head>
           <div style={{ maxWidth: 600, marginRight: 52 }}>
             <Carousel
               animation="fade"

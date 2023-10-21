@@ -4,6 +4,7 @@
  * AUTHOR     : Lee Juhong
  * CREATEDATE : 2023-10-18
  * UPDATEDATE : 2023-10-19 / 후기 글 작성 기능 추가 / Lee Juhong
+ * UPDATEDATE : 2023-10-21 / typecheck 미사용 파라미터 수정 / Lee Juhong
  */
 import { Badge, Button } from '@mantine/core'
 import { OrderItem, Orders } from '@prisma/client'
@@ -113,7 +114,7 @@ const DetailItem = (props: OrderDetail) => {
         // Return a context object with the snapshotted value
         return { previousTodos: previous }
       },
-      onError: (error, _, context) => {
+      onError: (__, _, context) => {
         if (context) {
           queryClient.setQueryData([GET_ORDER_QUERY_KEY], context)
         }

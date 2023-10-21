@@ -3,7 +3,7 @@
  * PURPOSE    : 장바구니 수정 API
  * AUTHOR     : Lee Juhong
  * CREATEDATE : 2023-10-16
- * UPDATEDATE : -
+ * UPDATEDATE : 2023-10-21 / typecheck 미사용 파라미터 수정 / Lee Juhong
  */
 
 import { Cart, PrismaClient } from '@prisma/client'
@@ -14,7 +14,7 @@ import { authOptions } from './auth/[...nextauth]'
 
 const prisma = new PrismaClient()
 
-async function updateCart(userId: string, item: Cart) {
+async function updateCart(item: Cart) {
   try {
     const response = await prisma.cart.update({
       where: {
@@ -53,7 +53,7 @@ export default async function handler(
   }
 
   try {
-    const wishlist = await updateCart(String(session.id), item)
+    const wishlist = await updateCart(item)
     res.status(200).json({ items: wishlist, message: 'Success get WishList' })
   } catch (error) {
     res.status(400).json({ message: 'Failed get Product' })
