@@ -4,6 +4,7 @@
  * AUTHOR     : Lee Juhong
  * CREATEDATE : 2023-10-19
  * UPDATEDATE : 2023-10-20 / 후기 이미지 추가 / Lee Juhong
+ * UPDATEDATE : 2023-10-22 / 후기 UI 수정 / Lee Juhong
  */
 
 import styled from '@emotion/styled'
@@ -48,18 +49,20 @@ export default function CommentItem({ item }: { item: CommentItemType }) {
         />
       </div>
       <div style={{ display: 'flex' }}>
-        {item.images
-          ?.split(',')
-          .map((image, idx) => (
-            <AutoSizeImage key={idx} src={image} size={150} />
-          ))}
+        {item.images &&
+          item.images.length > 1 &&
+          item.images
+            ?.split(',')
+            .map((image, idx) => (
+              <AutoSizeImage key={idx} src={image} size={150} />
+            ))}
       </div>
     </Wrapper>
   )
 }
 
 const Wrapper = styled.div`
-  border: 1px solid black;
+  border: 1px solid #cccccc;
   border-radius: 8px;
   padding: 8px;
 `

@@ -5,6 +5,7 @@
  * CREATEDATE : 2023-10-13
  * UPDATEDATE : 2023-10-16 / 찜목록 url경로 수정 / Lee Juhong
  * UPDATEDATE : 2023-10-21 / 로그아웃 Icon 추가 / Lee Juhong
+ * UPDATEDATE : 2023-10-22 / 이미지 커서 추가 / Lee Juhong
  */
 
 import {
@@ -25,16 +26,16 @@ export default function Header() {
   return (
     <div className="mt-12 mb-12">
       <div className="w-full flex h-50 items-center">
-        <IconHome onClick={() => router.push('/')} />
+        <IconHome className="cursor-pointer" onClick={() => router.push('/')} />
         <span className="m-auto" />
         <IconHeart
-          className="mr-4"
+          className="mr-4 cursor-pointer"
           onClick={() =>
             session ? router.push('/wishlist') : router.push('/auth/login')
           }
         />
         <IconShoppingCart
-          className="mr-4"
+          className="mr-4 cursor-pointer"
           onClick={() => router.push('/cart')}
         />
         {session ? (
@@ -47,11 +48,15 @@ export default function Header() {
               height={30}
               style={{ borderRadius: '50%' }}
               onClick={() => router.push('/my')}
+              className="cursor-pointer"
             />
-            <IconLogout onClick={() => signOut()} />
+            <IconLogout className="cursor-pointer" onClick={() => signOut()} />
           </div>
         ) : (
-          <IconUser onClick={() => router.push('/auth/login')} />
+          <IconUser
+            className="cursor-pointer"
+            onClick={() => router.push('/auth/login')}
+          />
         )}
       </div>
     </div>

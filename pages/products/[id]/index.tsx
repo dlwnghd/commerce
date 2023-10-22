@@ -9,6 +9,7 @@
  * UPDATEDATE : 2023-10-18 / 주문하기 기능 추가 / Lee Juhong
  * UPDATEDATE : 2023-10-19 / 후기 글 조회 기능 추가 / Lee Juhong
  * UPDATEDATE : 2023-10-21 / SEO 상향(<title>, <meta> 추가 및 typecheck 미사용 파라미터 수정) / Lee Juhong
+ * UPDATEDATE : 2023-10-22 / 후기 UI 수정 / Lee Juhong
  */
 
 import { Button } from '@mantine/core'
@@ -245,12 +246,15 @@ export default function Products(props: {
             {editorState != null && (
               <CustomEditor editorState={editorState} readOnly />
             )}
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 mb-6">
               <p className="text-2xl font-semibold">후기</p>
-              {props.comments &&
+              {props.comments && props.comments.length > 0 ? (
                 props.comments.map((comment, idx) => (
                   <CommentItem key={idx} item={comment} />
-                ))}
+                ))
+              ) : (
+                <>아직 작성된 후기가 없습니다.</>
+              )}
             </div>
           </div>
           <div style={{ maxWidth: 600 }} className="flex flex-col space-y-6">

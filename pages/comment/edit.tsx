@@ -4,6 +4,7 @@
  * AUTHOR     : Lee Juhong
  * CREATEDATE : 2023-10-19
  * UPDATEDATE : 2023-10-20 / 후기 이미지 추가 구현 / Lee Juhong
+ * UPDATEDATE : 2023-10-22 / 후기 UI 수정 / Lee Juhong
  */
 
 import { Slider } from '@mantine/core'
@@ -112,7 +113,8 @@ export default function CommentEdit() {
   }
 
   return (
-    <div>
+    <div className="flex flex-col gap-8">
+      <h1 className="text-4xl font-semibold">후기</h1>
       {editorState != null && (
         <CustomEditor
           editorState={editorState}
@@ -137,7 +139,7 @@ export default function CommentEdit() {
       />
       <div style={{ display: 'flex' }}>
         {images &&
-          images.length > 0 &&
+          images.length > 1 &&
           images.map((image, idx) => <AutoSizeImage key={idx} src={image} />)}
       </div>
     </div>

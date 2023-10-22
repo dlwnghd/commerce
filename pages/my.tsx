@@ -5,6 +5,7 @@
  * CREATEDATE : 2023-10-18
  * UPDATEDATE : 2023-10-19 / 후기 글 작성 기능 추가 / Lee Juhong
  * UPDATEDATE : 2023-10-21 / typecheck 미사용 파라미터 수정 / Lee Juhong
+ * UPDATEDATE : 2023-10-22 / 이미지 cursor 추가 / Lee Juhong
  */
 import { Badge, Button } from '@mantine/core'
 import { OrderItem, Orders } from '@prisma/client'
@@ -199,6 +200,7 @@ const Item = (props: OrderItemDetail & { status: number }) => {
   return (
     <div className="w-full flex p-4" style={{ borderBottom: '1px solid grey' }}>
       <Image
+        className="cursor-pointer"
         src={props.image_url}
         width={155}
         height={195}

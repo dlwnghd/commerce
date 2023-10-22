@@ -5,6 +5,7 @@
  * CREATEDATE : 2023-10-10
  * UPDATEDATE : 2023-10-13 / 메인 페이지 수정 / Lee Juhong
  * UPDATEDATE : 2023-10-18 / QUERY 키 호출 추가 / Lee Juhong
+ * UPDATEDATE : 2023-10-22 / 이미지 cursor 추가 및 오타 수정 / Lee Juhong
  */
 
 import { Input, Pagination, SegmentedControl, Select } from '@mantine/core'
@@ -89,7 +90,7 @@ export default function Home() {
   }
 
   return (
-    <div className="mt-36 mb=36">
+    <div className="mt-36 mb-36">
       <div className="mb-4">
         <Input
           icon={<IconSearch />}
@@ -126,7 +127,7 @@ export default function Home() {
           {products.map((item) => (
             <div
               key={item.id}
-              style={{ maxWidth: 310 }}
+              style={{ maxWidth: 310, cursor: 'pointer' }}
               onClick={() => router.push(`/products/${item.id}`)}
             >
               <Image

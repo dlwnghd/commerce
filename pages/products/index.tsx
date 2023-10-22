@@ -4,6 +4,7 @@
  * AUTHOR     : Lee Juhong
  * CREATEDATE : 2023-10-10
  * UPDATEDATE : 2023-10-18 / QUERY 키 호출 추가 / Lee Juhong
+ * UPDATEDATE : 2023-10-22 / 이미지 cursor 추가 및 오타 수정 / Lee Juhong
  */
 
 import { products } from '@prisma/client'
@@ -35,11 +36,11 @@ export default function Products() {
   }, [skip, products])
 
   return (
-    <div className="px-36 mt-36 mb=36">
+    <div className="px-36 mt-36 mb-36">
       {products && (
         <div className="grid grid-cols-3 gap-5">
           {products.map((item) => (
-            <div key={item.id}>
+            <div className="cursor-pointer" key={item.id}>
               <Image
                 className="rounded"
                 alt={item.name}

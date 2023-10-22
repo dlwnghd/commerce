@@ -6,6 +6,7 @@
  * UPDATEDATE : 2023-10-11 / Session Test / Lee Juhong
  * UPDATEDATE : 2023-10-12 / 상품 상세 페이지 이동 기능 추가 / Lee Juhong
  * UPDATEDATE : 2023-10-18 / QUERY 키 호출 추가 / Lee Juhong
+ * UPDATEDATE : 2023-10-22 / 이미지 cursor 추가 및 오타 수정 / Lee Juhong
  */
 
 import { Input, Pagination, SegmentedControl, Select } from '@mantine/core'
@@ -92,7 +93,7 @@ export default function Products() {
   }
 
   return (
-    <div className="px-36 mt-36 mb=36">
+    <div className="px-36 mt-36 mb-36">
       {session && <p>안녕하세요. {session.user?.name}님</p>}
       <div className="mb-4">
         <Input
@@ -130,7 +131,7 @@ export default function Products() {
           {products.map((item) => (
             <div
               key={item.id}
-              style={{ maxWidth: 310 }}
+              style={{ maxWidth: 310, cursor: 'pointer' }}
               onClick={() => router.push(`/products/${item.id}`)}
             >
               <Image

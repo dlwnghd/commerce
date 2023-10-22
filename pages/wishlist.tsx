@@ -6,6 +6,7 @@
  * UPDATEDATE : 2023-10-16 / 파일명 변경 및 UI 수정 / Lee Juhong
  * UPDATEDATE : 2023-10-18 / QUERY 키 호출 추가 / Lee Juhong
  * UPDATEDATE : 2023-10-22 / 찜하기 호출 api 수정 / Lee Juhong
+ * UPDATEDATE : 2023-10-22 / 이미지 cursor 추가 / Lee Juhong
  */
 
 import { SegmentedControl } from '@mantine/core'
@@ -82,7 +83,7 @@ export default function Wishlist() {
             {products.map((item) => (
               <div
                 key={item.id}
-                style={{ maxWidth: 310 }}
+                style={{ maxWidth: 310, cursor: 'pointer' }}
                 onClick={() => router.push(`/products/${item.id}`)}
               >
                 <Image
