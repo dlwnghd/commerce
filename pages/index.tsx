@@ -6,7 +6,7 @@
  * UPDATEDATE : 2023-10-13 / 메인 페이지 수정 / Lee Juhong
  * UPDATEDATE : 2023-10-18 / QUERY 키 호출 추가 / Lee Juhong
  * UPDATEDATE : 2023-10-22 / 이미지 cursor 추가 및 오타 수정 / Lee Juhong
- * UPDATEDATE : 2023-10-23 / SEO 최적화(aria-label 추가) / Lee Juhong
+ * UPDATEDATE : 2023-10-23 / SEO 최적화(aria-label 추가), 이미지 크기 수정 / Lee Juhong
  */
 
 import { Input, Pagination, SegmentedControl, Select } from '@mantine/core'
@@ -137,7 +137,7 @@ export default function Home() {
                 alt={item.name}
                 src={item.image_url ?? ''}
                 width={300}
-                height={200}
+                height={375}
                 placeholder="blur"
                 blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mM0tbSsBwACegEoriWGfgAAAABJRU5ErkJggg=="
               />
