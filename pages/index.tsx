@@ -129,7 +129,7 @@ export default function Home() {
           {products.map((item) => (
             <div
               key={item.id}
-              style={{ maxWidth: 310, cursor: 'pointer' }}
+              style={{ maxWidth: 300, cursor: 'pointer' }}
               onClick={() => router.push(`/products/${item.id}`)}
             >
               <Image
