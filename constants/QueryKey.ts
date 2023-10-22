@@ -4,6 +4,7 @@
  * AUTHOR     : Lee Juhong
  * CREATEDATE : 2023-10-18
  * UPDATEDATE : 2023-10-19 / COMMENT 쿼리문 추가 / Lee Juhong
+ * UPDATEDATE : 2023-10-22 / WISHLIST 쿼리문 추가 / Lee Juhong
  */
 
 // PRODUCT      | 상품
@@ -16,7 +17,8 @@ export const UPDATE_PRODUCT_QUERY_KEY = '/api/update-product'
 export const GET_CATEGORY_QUERY_KEY = '/api/get-categories'
 
 // WISHLIST     | 찜리스트
-export const GET_WISHLIST_QUERY_KEY = '/api/get-wishlists'
+export const GET_WISHLIST_QUERY_KEY = '/api/get-wishlist'
+export const GET_WISHLISTS_QUERY_KEY = '/api/get-wishlists'
 export const UPDATE_WISHLIST_QUERY_KEY = '/api/update-wishlist'
 
 // CART         | 장바구니

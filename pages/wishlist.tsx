@@ -5,6 +5,7 @@
  * CREATEDATE : 2023-10-13
  * UPDATEDATE : 2023-10-16 / 파일명 변경 및 UI 수정 / Lee Juhong
  * UPDATEDATE : 2023-10-18 / QUERY 키 호출 추가 / Lee Juhong
+ * UPDATEDATE : 2023-10-22 / 찜하기 호출 api 수정 / Lee Juhong
  */
 
 import { SegmentedControl } from '@mantine/core'
@@ -17,7 +18,7 @@ import { useState } from 'react'
 import { CATEGORY_MAP } from '@@constants/products'
 import {
   GET_CATEGORY_QUERY_KEY,
-  GET_WISHLIST_QUERY_KEY,
+  GET_WISHLISTS_QUERY_KEY,
 } from '@@constants/QueryKey'
 
 export default function Wishlist() {
@@ -39,9 +40,9 @@ export default function Wishlist() {
     unknown,
     products[]
   >(
-    [`${GET_WISHLIST_QUERY_KEY}?category=${selectedCategory}`],
+    [`${GET_WISHLISTS_QUERY_KEY}?category=${selectedCategory}`],
     () =>
-      fetch(`${GET_WISHLIST_QUERY_KEY}?category=${selectedCategory}`).then(
+      fetch(`${GET_WISHLISTS_QUERY_KEY}?category=${selectedCategory}`).then(
         (res) => res.json(),
       ),
     {
