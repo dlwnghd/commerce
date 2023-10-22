@@ -6,6 +6,7 @@
  * UPDATEDATE : 2023-10-13 / 메인 페이지 수정 / Lee Juhong
  * UPDATEDATE : 2023-10-18 / QUERY 키 호출 추가 / Lee Juhong
  * UPDATEDATE : 2023-10-22 / 이미지 cursor 추가 및 오타 수정 / Lee Juhong
+ * UPDATEDATE : 2023-10-23 / SEO 최적화(aria-label 추가) / Lee Juhong
  */
 
 import { Input, Pagination, SegmentedControl, Select } from '@mantine/core'
@@ -101,6 +102,7 @@ export default function Home() {
       </div>
       <div className="mb-4">
         <Select
+          aria-label="Select Filter"
           value={selectedFilter}
           onChange={setSelectedFilter}
           data={FILTERS}
@@ -145,7 +147,7 @@ export default function Home() {
                   {item.price.toLocaleString('ko-KR')}원
                 </span>
               </div>
-              <span className="text-zinc-400">
+              <span className="text-zinc-500">
                 {item.category_id != null
                   ? CATEGORY_MAP[item.category_id - 1]
                   : 1}
@@ -157,10 +159,27 @@ export default function Home() {
       {total && (
         <div className="w-full flex mt-5">
           <Pagination
+            aria-label="my pagination component"
             className="m-auto"
             page={activePage}
             onChange={setPage}
             total={total}
+            getItemAriaLabel={(total) => {
+              switch (total) {
+                case 'dots':
+                  return 'dots element aria-label'
+                case 'prev':
+                  return 'previous page button aria-label'
+                case 'next':
+                  return 'next page button aria-label'
+                case 'first':
+                  return 'first page button aria-label'
+                case 'last':
+                  return 'last page button aria-label'
+                default:
+                  return `${total} item aria-label`
+              }
+            }}
           />
         </div>
       )}
