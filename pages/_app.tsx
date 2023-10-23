@@ -7,7 +7,7 @@
  * UPDATEDATE : 2023-10-12 / GoggleOAuthProvider 이동 / Lee Juhong
  * UPDATEDATE : 2023-10-13 / 공통 UI(Header) 추가 / Lee Juhong
  * UPDATEDATE : 2023-10-21 / SEO 상향(<title>, <meta> 추가) / Lee Juhong
- * UPDATEDATE : 2023-10-23 / <meta> 오타 수정) / Lee Juhong
+ * UPDATEDATE : 2023-10-23 / <meta> 추가 및 오타 수정 / Lee Juhong
  */
 
 import '@@styles/globals.css'
@@ -36,6 +36,7 @@ export default function App({
           <Head>
             <title>Commerce Service</title>
             <meta name="description" content="commerce service LeeJuhong" />
+            <meta name="robots" content="all" />
           </Head>
           <div className="px-36">
             <Header />
