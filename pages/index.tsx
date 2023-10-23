@@ -6,7 +6,7 @@
  * UPDATEDATE : 2023-10-13 / 메인 페이지 수정 / Lee Juhong
  * UPDATEDATE : 2023-10-18 / QUERY 키 호출 추가 / Lee Juhong
  * UPDATEDATE : 2023-10-22 / 이미지 cursor 추가 및 오타 수정 / Lee Juhong
- * UPDATEDATE : 2023-10-23 / SEO 최적화(aria-label 추가), 이미지 크기 수정 / Lee Juhong
+ * UPDATEDATE : 2023-10-23 / SEO 최적화(aria-label 추가), 이미지 크기 및 loading 속성 수정 / Lee Juhong
  */
 
 import { Input, Pagination, SegmentedControl, Select } from '@mantine/core'
@@ -126,7 +126,7 @@ export default function Home() {
       )}
       {products && (
         <div className="grid grid-cols-3 gap-5">
-          {products.map((item) => (
+          {products.map((item, idx) => (
             <div
               key={item.id}
               style={{ maxWidth: 300, cursor: 'pointer' }}
@@ -138,6 +138,7 @@ export default function Home() {
                 src={item.image_url ?? ''}
                 width={300}
                 height={375}
+                loading={idx < 3 ? 'eager' : 'lazy'}
                 placeholder="blur"
                 blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mM0tbSsBwACegEoriWGfgAAAABJRU5ErkJggg=="
               />
