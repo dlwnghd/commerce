@@ -98,6 +98,11 @@ export default function Home() {
           placeholder="Search"
           value={keyword}
           onChange={handleSearchTextChange}
+          variant="unstyled"
+          style={{
+            border: '1px solid rgb(206, 212, 218)',
+            borderRadius: '4px',
+          }}
         />
       </div>
       <div className="mb-4">
@@ -106,6 +111,11 @@ export default function Home() {
           value={selectedFilter}
           onChange={setSelectedFilter}
           data={FILTERS}
+          variant="unstyled"
+          style={{
+            border: '1px solid rgb(206, 212, 218)',
+            borderRadius: '4px',
+          }}
         />
       </div>
       {categories && (
