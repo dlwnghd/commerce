@@ -9,7 +9,13 @@
  * UPDATEDATE : 2023-10-23 / SEO 최적화(aria-label 추가), 이미지 크기 및 loading 속성 수정 / Lee Juhong
  */
 
-import { Input, Pagination, SegmentedControl, Select } from '@mantine/core'
+import {
+  Input,
+  Pagination,
+  SegmentedControl,
+  Select,
+  Skeleton,
+} from '@mantine/core'
 import { categories, products } from '@prisma/client'
 import { IconSearch } from '@tabler/icons-react'
 import { useQuery } from '@tanstack/react-query'
@@ -93,30 +99,29 @@ export default function Home() {
   return (
     <div className="mt-36 mb-36">
       <div className="mb-4">
-        <Input
-          icon={<IconSearch />}
-          placeholder="Search"
-          value={keyword}
-          onChange={handleSearchTextChange}
-          variant="unstyled"
-          style={{
-            border: '1px solid rgb(206, 212, 218)',
-            borderRadius: '4px',
-          }}
-        />
+        {categories ? (
+          <Input
+            icon={<IconSearch />}
+            placeholder="Search"
+            value={keyword}
+            onChange={handleSearchTextChange}
+          />
+        ) : (
+          <Skeleton height={36} mb="md" />
+        )}
       </div>
+
       <div className="mb-4">
-        <Select
-          aria-label="Select Filter"
-          value={selectedFilter}
-          onChange={setSelectedFilter}
-          data={FILTERS}
-          variant="unstyled"
-          style={{
-            border: '1px solid rgb(206, 212, 218)',
-            borderRadius: '4px',
-          }}
-        />
+        {categories ? (
+          <Select
+            aria-label="Select Filter"
+            value={selectedFilter}
+            onChange={setSelectedFilter}
+            data={FILTERS}
+          />
+        ) : (
+          <Skeleton height={36} mb="md" />
+        )}
       </div>
       {categories && (
         <div className="mb-4">
@@ -167,7 +172,7 @@ export default function Home() {
           ))}
         </div>
       )}
-      {total && (
+      {total ? (
         <div className="w-full flex mt-5">
           <Pagination
             aria-label="my pagination component"
@@ -193,6 +198,8 @@ export default function Home() {
             }}
           />
         </div>
+      ) : (
+        <Skeleton height={32} mt="md" />
       )}
     </div>
   )
